@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "976606190124",
+    "project_id": "federe-27c33",
+    "storage_bucket": "federe-27c33.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:976606190124:android:be9423d04c4b86c4ee0f89",
+        "android_client_info": {
+          "package_name": "com.example.projet_federe"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwwpd3ocJa3zJwy_INKLBgaFJGwH88HkI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
