@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projet_federe/atoms/colors.dart';
+
 class LogRegButton extends StatelessWidget {
   Color buttonColor;
   void Function() onPressed;
@@ -42,27 +43,38 @@ class LogRegButton extends StatelessWidget {
     );
   }
 }
+
 class MainButton extends StatelessWidget {
   double height;
   double width;
   String label;
-    void Function() onPressed;
-   MainButton({super.key,required this.height,required this.width,required this.label,required this.onPressed});
+  Color? buttonColor;
+  Color? textColor;
+  void Function() onPressed;
+  MainButton(
+      {super.key,
+      required this.height,
+      this.buttonColor,
+      required this.width,
+      required this.label,
+      this.textColor,
+      required this.onPressed});
   @override
   Widget build(BuildContext context) {
-    return  GestureDetector(
+    return GestureDetector(
       onTap: onPressed,
       child: Container(
         width: width,
         height: height,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(25)),
-          color: myPrimaryColor,
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(25)),
+          color: buttonColor == null ? myPrimaryColor : buttonColor,
         ),
         child: Center(
-          child: Text(label,
-            style: const TextStyle(
-              color: myBackgroundColor,
+          child: Text(
+            label,
+            style:  TextStyle(
+              color: textColor == null ? myBackgroundColor : textColor,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),

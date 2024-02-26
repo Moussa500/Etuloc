@@ -58,7 +58,7 @@ class EtudiantHomePage extends StatelessWidget {
                 child: ListView.separated(
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) => Container(
-                          height: Dimensions.deviceWidth(context) * .4,
+                          height: Dimensions.deviceWidth(context) * .43,
                           decoration: const BoxDecoration(
                             color: myBackgroundColor,
                             borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -72,7 +72,7 @@ class EtudiantHomePage extends StatelessWidget {
                           ),
                           child: Row(
                             children: [
-                              houseProvider.combinedList[index] is HousePerPlacesModel?HousePerPlaceCard(path:houseProvider.housePerPlace[index].images[1], city:houseProvider.combinedList[index].city, price:houseProvider.combinedList[index].price, availablePlaces: houseProvider.housePerPlace[index].availablePlaces,location: houseProvider.housePerPlace[index].location,):HousePerHouseCard(),
+                              houseProvider.combinedList[index] is HousePerPlacesModel?HousePerPlaceCard(path:houseProvider.housePerPlace[index].images[1], city:houseProvider.combinedList[index].city, price:houseProvider.combinedList[index].price, availablePlaces: houseProvider.housePerPlace[index].availablePlaces,location: houseProvider.housePerPlace[index].loc,):HousePerHouseCard(path: houseProvider.housePerHouse[0].images[0], city: houseProvider.combinedList[index].city, price: houseProvider.combinedList[index].price, location: houseProvider.housePerHouse[0].loc, state:houseProvider.housePerHouse[0].state==HouseStates.underNegotiation?"Under negotiation":houseProvider.housePerHouse[0].state.toString()),
                             ],
                           ),
                         ),
