@@ -2,11 +2,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:projet_federe/firebase_options.dart';
 import 'package:projet_federe/pages/Etudiant/homepage.dart';
-import 'package:projet_federe/providers/authprovider.dart';
-import 'package:projet_federe/providers/checkbox.dart';
+import 'package:projet_federe/stateManagement/authprovider.dart';
+import 'package:projet_federe/stateManagement/checkbox.dart';
 import 'package:projet_federe/pages/login_page.dart';
 import 'package:projet_federe/pages/register_page.dart';
-import 'package:projet_federe/providers/textfields_state.dart';
+import 'package:projet_federe/stateManagement/home_state.dart';
+import 'package:projet_federe/stateManagement/textfields_state.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -17,11 +18,11 @@ void main() async {
       ChangeNotifierProvider(create: (context) => TextFieldsState()),
       ChangeNotifierProvider(create: (context) => AuthProvider()),
       ChangeNotifierProvider(create: (context) => CheckBoxChanger()),
+      ChangeNotifierProvider(create: (context)=>HomeState())
     ],
     child: const MyApp(),
   ));
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override

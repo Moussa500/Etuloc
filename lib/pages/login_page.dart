@@ -4,8 +4,8 @@ import 'package:projet_federe/atoms/device_dimensions.dart';
 import 'package:projet_federe/atoms/text.dart';
 import 'package:projet_federe/atoms/textfields.dart';
 import 'package:projet_federe/atoms/colors.dart';
-import 'package:projet_federe/providers/authprovider.dart';
-import 'package:projet_federe/providers/textfields_state.dart';
+import 'package:projet_federe/stateManagement/authprovider.dart';
+import 'package:projet_federe/stateManagement/textfields_state.dart';
 import 'package:provider/provider.dart';
 import '../services/sncak_bar_services.dart';
 
@@ -28,7 +28,6 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
-
 class BackgroundContainer extends StatelessWidget {
   const BackgroundContainer({
     super.key,
@@ -37,7 +36,6 @@ class BackgroundContainer extends StatelessWidget {
   });
   final double? deviceheight;
   final double? devicewidh;
-
   @override
   Widget build(BuildContext context) {
     var textFieldsState = Provider.of<TextFieldsState>(context);
@@ -121,14 +119,7 @@ class BackgroundContainer extends StatelessWidget {
                   onPressed: () {
                     authentication.loginWithEmailandPassword(
                         textFieldsState.emailController.text,
-                        textFieldsState.passwordController.text);
-                    authentication.authStatus == AuthStatus.error
-                        ? SnackBarService.showErrorSnackBar(
-                            context, 'Error Signing in')
-                        : {
-                          SnackBarService.showSuccessSnackBar(context,'Welcome!'),
-                          Navigator.pushNamed((context),"etudiant"),
-                        };
+                        textFieldsState.passwordController.text,context);
                   }),
             ],
           ),

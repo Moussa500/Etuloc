@@ -4,9 +4,10 @@ import 'package:projet_federe/atoms/text.dart';
 import 'package:projet_federe/atoms/textfields.dart';
 import 'package:projet_federe/atoms/colors.dart';
 import 'package:projet_federe/pages/login_page.dart';
-import 'package:projet_federe/providers/authprovider.dart';
-import 'package:projet_federe/providers/checkbox.dart';
-import 'package:projet_federe/providers/textfields_state.dart';
+import 'package:projet_federe/stateManagement/authprovider.dart';
+import 'package:projet_federe/stateManagement/checkbox.dart';
+import 'package:projet_federe/stateManagement/textfields_state.dart';
+import 'package:projet_federe/services/sncak_bar_services.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -20,12 +21,14 @@ class RegisterPage extends StatelessWidget {
     deviceheight = MediaQuery.of(context).size.height;
     devicewidh = MediaQuery.of(context).size.width;
     return SafeArea(
-      child: Scaffold(
-        body: Center(
-          child: SingleChildScrollView(
-            child: BackgroundContainer(
-              deviceheight: deviceheight,
-              devicewidh: devicewidh,
+      child: SafeArea(
+        child: Scaffold(
+          body: Center(
+            child: SingleChildScrollView(
+              child: BackgroundContainer(
+                deviceheight: deviceheight,
+                devicewidh: devicewidh,
+              ),
             ),
           ),
         ),
@@ -144,8 +147,8 @@ class BackgroundContainer extends StatelessWidget {
                     textFieldsState.nameController.text,
                     textFieldsState.phoneNumberController.text,
                     checkBoxChanger.value == true ? 'Etudiant' : 'landlord',
+                    context,
                   );
-                  print("welcome ${authentication.user!.displayName}");
                 },
               ),
             ],

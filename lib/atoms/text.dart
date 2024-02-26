@@ -11,6 +11,7 @@ class Header extends StatelessWidget {
       label,
       style: const TextStyle(
           color: myTitlesColor, fontSize: 30, fontWeight: FontWeight.bold),
+          
     );
   }
 }

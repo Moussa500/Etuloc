@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:projet_federe/Models/houses_models.dart';
+import 'package:projet_federe/atoms/cards.dart';
 import 'package:projet_federe/atoms/colors.dart';
 import 'package:projet_federe/atoms/device_dimensions.dart';
 import 'package:projet_federe/atoms/textfields.dart';
-import 'package:projet_federe/providers/textfields_state.dart';
+import 'package:projet_federe/stateManagement/home_state.dart';
+import 'package:projet_federe/stateManagement/textfields_state.dart';
 import 'package:provider/provider.dart';
 
 class EtudiantHomePage extends StatelessWidget {
@@ -13,12 +15,14 @@ class EtudiantHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var controller = Provider.of<TextFieldsState>(context);
+    var houseProvider = Provider.of<HomeState>(context);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           title: Text(
             'Hello ${user!.displayName}',
-            style: GoogleFonts.poppins(
+            style: const TextStyle(
+              fontFamily: "poppins",
               fontSize: 30,
               fontWeight: FontWeight.w600,
             ),
@@ -27,7 +31,7 @@ class EtudiantHomePage extends StatelessWidget {
             Icon(
               Icons.settings,
               color: myPrimaryColor,
-              size: 55,
+              size: 40,
             ),
           ],
         ),
@@ -45,23 +49,37 @@ class EtudiantHomePage extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 50,),
+              const SizedBox(
+                height: 50,
+              ),
               SizedBox(
-                width: Dimensions.deviceWidth(context)*.9,
+                width: Dimensions.deviceWidth(context) * .9,
                 height: Dimensions.deviceHeight(context) * .6,
                 child: ListView.separated(
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) => Container(
                           height: Dimensions.deviceWidth(context) * .4,
                           decoration: const BoxDecoration(
-                            color: mySecondaryColor,
+                            color: myBackgroundColor,
                             borderRadius: BorderRadius.all(Radius.circular(20)),
+                            boxShadow: [
+                              BoxShadow(
+                                offset: Offset(0, 3),
+                                blurRadius: 6,
+                                color: myShadowColor
+                              ),
+                            ]
+                          ),
+                          child: Row(
+                            children: [
+                              houseProvider.combinedList[index] is HousePerPlacesModel?HousePerPlaceCard(path:houseProvider.housePerPlace[index].images[1], city:houseProvider.combinedList[index].city, price:houseProvider.combinedList[index].price, availablePlaces: houseProvider.housePerPlace[index].availablePlaces,location: houseProvider.housePerPlace[index].location,):HousePerHouseCard(),
+                            ],
                           ),
                         ),
                     separatorBuilder: (context, index) => const SizedBox(
                           height: 15,
                         ),
-                    itemCount: 3),
+                    itemCount: houseProvider.combinedList.length),
               ),
             ],
           ),
