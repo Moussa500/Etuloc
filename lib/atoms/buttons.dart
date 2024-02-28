@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:projet_federe/atoms/colors.dart';
-
 class LogRegButton extends StatelessWidget {
   Color buttonColor;
   void Function() onPressed;
@@ -43,7 +42,6 @@ class LogRegButton extends StatelessWidget {
     );
   }
 }
-
 class MainButton extends StatelessWidget {
   double height;
   double width;

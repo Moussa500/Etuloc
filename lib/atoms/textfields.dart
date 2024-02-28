@@ -6,19 +6,21 @@ class CustomTextField extends StatelessWidget {
   TextEditingController controller;
   Icon? icon;
   double? customwidth;
+  void Function(String)? onChanged;
   CustomTextField({
     Key? key,
     required this.label,
     required this.controller,
     this.icon,
     this.customwidth,
+    this.onChanged,
   }) : super(key: key);
   double? width;
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     return Container(
-      width: customwidth!=null?customwidth:width! * .7,
+      width: customwidth != null ? customwidth : width! * .7,
       decoration: BoxDecoration(
         color: myBackgroundColor,
         borderRadius: const BorderRadius.all(Radius.circular(18)),
@@ -31,7 +33,9 @@ class CustomTextField extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(left: 9),
           child: TextField(
+            textDirection: TextDirection.ltr,
             controller: controller,
+            onChanged: onChanged,
             decoration: InputDecoration(
               prefixIcon: icon,
               hintText: label,

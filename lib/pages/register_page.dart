@@ -7,7 +7,6 @@ import 'package:projet_federe/pages/login_page.dart';
 import 'package:projet_federe/stateManagement/authprovider.dart';
 import 'package:projet_federe/stateManagement/checkbox.dart';
 import 'package:projet_federe/stateManagement/textfields_state.dart';
-import 'package:projet_federe/services/sncak_bar_services.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -15,7 +14,6 @@ class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
   double? deviceheight;
   double? devicewidh;
-
   @override
   Widget build(BuildContext context) {
     deviceheight = MediaQuery.of(context).size.height;
@@ -36,7 +34,6 @@ class RegisterPage extends StatelessWidget {
     );
   }
 }
-
 class BackgroundContainer extends StatelessWidget {
   BackgroundContainer({
     super.key,

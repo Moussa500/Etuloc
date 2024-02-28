@@ -7,7 +7,6 @@ import 'package:projet_federe/atoms/colors.dart';
 import 'package:projet_federe/stateManagement/authprovider.dart';
 import 'package:projet_federe/stateManagement/textfields_state.dart';
 import 'package:provider/provider.dart';
-import '../services/sncak_bar_services.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});

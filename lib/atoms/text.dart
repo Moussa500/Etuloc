@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projet_federe/atoms/colors.dart';
 
+// ignore: must_be_immutable
 class Header extends StatelessWidget {
   String label;
   Header({super.key, required this.label});
@@ -11,7 +12,6 @@ class Header extends StatelessWidget {
       label,
       style: const TextStyle(
           color: myTitlesColor, fontSize: 30, fontWeight: FontWeight.bold),
-          
     );
   }
 }

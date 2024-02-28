@@ -2,13 +2,14 @@ abstract class HousesModel {
   String location;
   String city;
   String price;
+  String id;
   HousesModel({
     required this.location,
     required this.city,
     required this.price,
+    required this.id,
   });
 }
-
 class HousePerPlacesModel extends HousesModel {
   String availablePlaces;
   String type;
@@ -19,13 +20,13 @@ class HousePerPlacesModel extends HousesModel {
     required String location,
     required String city,
     required String price,
+    required String id,
     required this.availablePlaces,
     required this.type,
     required this.maxPlaces,
     required this.images,
     required this.loc,
-  }) : super(location: location, city: city, price: price);
-  @override
+  }) : super(location: location, city: city, price: price,id:id);
   static List<HousePerPlacesModel> fillList() {
     List<HousePerPlacesModel> housesList = [];
     List<String> sfaxImages = [
@@ -40,6 +41,7 @@ class HousePerPlacesModel extends HousesModel {
     ];
     housesList.add(HousePerPlacesModel(
         images: sfaxImages,
+        id: "fQIZaB2e7eWo2zHpvofNyK28cXw1",
         location: "PPGC+6RW, Sfax",
         city: "Sfax",
         price: "600",
@@ -48,8 +50,9 @@ class HousePerPlacesModel extends HousesModel {
         maxPlaces: "4",
         loc: "Hay lahbib"));
     housesList.add(HousePerPlacesModel(
+        id: "Jm7X2JR8I3NEujxjIJ9wfNjFe6m1",
         images: gafsaImages,
-        location: "CQHG+XHP،Rue Gandhi,Gafsa",
+        location: "CQHG+XHP,Gafsa",
         city: "Gafsa",
         price: "350",
         availablePlaces: "2",
@@ -59,13 +62,11 @@ class HousePerPlacesModel extends HousesModel {
     return housesList;
   }
 }
-
 enum HouseStates {
   rented,
   underNegotiation,
   free,
 }
-
 class HousesPerHouseModels extends HousesModel {
   String type;
   List<String> images;
@@ -74,12 +75,13 @@ class HousesPerHouseModels extends HousesModel {
   HousesPerHouseModels({
     required String location,
     required String city,
+    required String id,
     required String price,
     required this.type,
     required this.images,
     required this.state,
     required this.loc,
-  }) : super(location: location, city: city, price: price);
+  }) : super(location: location, city: city, price: price,id: id);
 
   static List<HousesPerHouseModels> fillList() {
     List<String> tunisImages = [
@@ -89,6 +91,7 @@ class HousesPerHouseModels extends HousesModel {
     ];
     List<HousesPerHouseModels> housesList = [];
     housesList.add(HousesPerHouseModels(
+      id: "dfsfsdfsdd",
       images: tunisImages,
       loc: "Hay el bassatin",
       location: "R529+M8 Tunis",

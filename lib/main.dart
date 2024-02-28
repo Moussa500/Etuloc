@@ -7,9 +7,9 @@ import 'package:projet_federe/stateManagement/checkbox.dart';
 import 'package:projet_federe/pages/login_page.dart';
 import 'package:projet_federe/pages/register_page.dart';
 import 'package:projet_federe/stateManagement/home_state.dart';
+import 'package:projet_federe/stateManagement/search_state.dart';
 import 'package:projet_federe/stateManagement/textfields_state.dart';
 import 'package:provider/provider.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -18,7 +18,8 @@ void main() async {
       ChangeNotifierProvider(create: (context) => TextFieldsState()),
       ChangeNotifierProvider(create: (context) => AuthProvider()),
       ChangeNotifierProvider(create: (context) => CheckBoxChanger()),
-      ChangeNotifierProvider(create: (context)=>HomeState())
+      ChangeNotifierProvider(create: (context)=>HomeState()),
+      ChangeNotifierProvider(create: (context)=>SearchTextProvider())
     ],
     child: const MyApp(),
   ));
