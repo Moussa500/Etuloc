@@ -1,7 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:projet_federe/Models/houses_models.dart';
 import 'package:projet_federe/atoms/buttons.dart';
 import 'package:projet_federe/atoms/colors.dart';
@@ -101,7 +98,6 @@ class detail extends StatelessWidget {
       required this.info});
 
   final HousePerPlacesModel housedetails;
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -132,7 +128,9 @@ class detail extends StatelessWidget {
   }
 }
 class Background extends StatelessWidget {
+    final Widget child;
   const Background({
+    required this.child,
     super.key,
   });
   @override
@@ -152,7 +150,7 @@ class Background extends StatelessWidget {
             ),
           ],
         ),
-        child: const Column(),
+        child: child,
       ),
     );
   }

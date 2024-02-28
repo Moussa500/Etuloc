@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:projet_federe/atoms/buttons.dart';
 import 'package:projet_federe/atoms/device_dimensions.dart';
 import 'package:projet_federe/atoms/text.dart';
@@ -27,6 +28,7 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
+
 class BackgroundContainer extends StatelessWidget {
   const BackgroundContainer({
     super.key,
@@ -93,18 +95,24 @@ class BackgroundContainer extends StatelessWidget {
               CustomTextField(
                 label: "password",
                 controller: textFieldsState.passwordController,
+                obscured: true,
               ),
               const SizedBox(
                 height: 35,
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 95),
-                child: Text(
-                  'Forget Password ?',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w400,
-                    color: myLabelColor,
+              Padding(
+                padding: const EdgeInsets.only(left: 95),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, "reset");
+                  },
+                  child: const Text(
+                    'Forget Password ?',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                      color: myLabelColor,
+                    ),
                   ),
                 ),
               ),
@@ -118,7 +126,8 @@ class BackgroundContainer extends StatelessWidget {
                   onPressed: () {
                     authentication.loginWithEmailandPassword(
                         textFieldsState.emailController.text,
-                        textFieldsState.passwordController.text,context);
+                        textFieldsState.passwordController.text,
+                        context);
                   }),
             ],
           ),
@@ -127,6 +136,7 @@ class BackgroundContainer extends StatelessWidget {
     );
   }
 }
+
 class ButtonSlider extends StatelessWidget {
   Color mainButtonColor;
   Color sideButtonColor;

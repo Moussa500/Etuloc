@@ -34,6 +34,7 @@ class RegisterPage extends StatelessWidget {
     );
   }
 }
+
 class BackgroundContainer extends StatelessWidget {
   BackgroundContainer({
     super.key,
@@ -93,6 +94,7 @@ class BackgroundContainer extends StatelessWidget {
               CustomTextField(
                 label: "password",
                 controller: textFieldsState.registerPasswordController,
+                obscured: true,
               ),
               const SizedBox(
                 height: 30,

@@ -11,8 +11,6 @@ import 'package:projet_federe/stateManagement/search_state.dart';
 import 'package:projet_federe/stateManagement/textfields_state.dart';
 import 'package:provider/provider.dart';
 
-// Import the SearchTextProvider
-
 class EtudiantHomePage extends StatelessWidget {
   EtudiantHomePage({super.key});
 
@@ -31,7 +29,6 @@ class EtudiantHomePage extends StatelessWidget {
       }
       return false;
     }).toList();
-
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -60,10 +57,8 @@ class EtudiantHomePage extends StatelessWidget {
                   child: CustomTextField(
                     icon: const Icon(Icons.search),
                     label: 'Search',
-                    // Use the searchTextProvider to control the text field
                     controller: TextEditingController(text: searchTextProvider.searchText),
                     onChanged: (text) {
-                      // Update the search text using the provider
                       searchTextProvider.searchText = text;
                     },
                     customwidth: MediaQuery.of(context).size.width * .9,

@@ -4,6 +4,7 @@ import 'package:projet_federe/atoms/colors.dart';
 class CustomTextField extends StatelessWidget {
   final String label;
   TextEditingController controller;
+  bool? obscured;
   Icon? icon;
   double? customwidth;
   void Function(String)? onChanged;
@@ -14,6 +15,7 @@ class CustomTextField extends StatelessWidget {
     this.icon,
     this.customwidth,
     this.onChanged,
+    this.obscured,
   }) : super(key: key);
   double? width;
   @override
@@ -36,6 +38,7 @@ class CustomTextField extends StatelessWidget {
             textDirection: TextDirection.ltr,
             controller: controller,
             onChanged: onChanged,
+            obscureText: obscured==null?false:true,
             decoration: InputDecoration(
               prefixIcon: icon,
               hintText: label,

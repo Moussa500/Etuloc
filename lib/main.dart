@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:projet_federe/firebase_options.dart';
 import 'package:projet_federe/pages/Etudiant/homepage.dart';
+import 'package:projet_federe/pages/reset_password.dart';
 import 'package:projet_federe/stateManagement/authprovider.dart';
 import 'package:projet_federe/stateManagement/checkbox.dart';
 import 'package:projet_federe/pages/login_page.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
           "login": (context) => LoginPage(),
           "register": (context) => RegisterPage(),
           "etudiant": (context) => EtudiantHomePage(),
+          "reset":(context)=>const resetPassword(),
         });
   }
 }
