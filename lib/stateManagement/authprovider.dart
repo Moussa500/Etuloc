@@ -13,6 +13,7 @@ class AuthProvider extends ChangeNotifier {
   User? user;
   AuthStatus authStatus = AuthStatus.notAuthenticating;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
+
   void loginWithEmailandPassword(
       String email, String password, BuildContext context) async {
     try {
