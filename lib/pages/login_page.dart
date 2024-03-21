@@ -7,6 +7,7 @@ import 'package:projet_federe/pieces/colors.dart';
 import 'package:projet_federe/stateManagement/authprovider.dart';
 import 'package:projet_federe/stateManagement/textfields_state.dart';
 import 'package:provider/provider.dart';
+
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
@@ -26,6 +27,7 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
+
 class BackgroundContainer extends StatelessWidget {
   const BackgroundContainer({
     super.key,
@@ -133,6 +135,7 @@ class BackgroundContainer extends StatelessWidget {
     );
   }
 }
+
 class ButtonSlider extends StatelessWidget {
   Color mainButtonColor;
   Color sideButtonColor;

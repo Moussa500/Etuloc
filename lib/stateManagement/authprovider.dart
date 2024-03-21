@@ -13,7 +13,6 @@ class AuthProvider extends ChangeNotifier {
   User? user;
   AuthStatus authStatus = AuthStatus.notAuthenticating;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
-
   void loginWithEmailandPassword(
       String email, String password, BuildContext context) async {
     try {
@@ -29,7 +28,7 @@ class AuthProvider extends ChangeNotifier {
       authStatus = AuthStatus.authenticated;
       SnackBarService.showSuccessSnackBar(
           context, 'Welcome ${user!.displayName}');
-      Navigator.pushNamed(context, "landlord");
+      Navigator.pushNamed(context, "etudiant");
       print('Sign in successful');
     } catch (e) {
       authStatus = AuthStatus.error;
@@ -38,7 +37,6 @@ class AuthProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
-
   void registerWithEmailandPassword(String email, String password, String name,
       String phoneNumber, String status, BuildContext context) async {
     try {
