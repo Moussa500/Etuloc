@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 class SearchTextProvider with ChangeNotifier {
   String _searchText = '';
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:projet_federe/atoms/buttons.dart';
-import 'package:projet_federe/atoms/text.dart';
-import 'package:projet_federe/atoms/textfields.dart';
-import 'package:projet_federe/atoms/colors.dart';
+import 'package:projet_federe/pieces/buttons.dart';
+import 'package:projet_federe/pieces/text.dart';
+import 'package:projet_federe/pieces/textfields.dart';
+import 'package:projet_federe/pieces/colors.dart';
 import 'package:projet_federe/pages/login_page.dart';
 import 'package:projet_federe/stateManagement/authprovider.dart';
 import 'package:projet_federe/stateManagement/checkbox.dart';

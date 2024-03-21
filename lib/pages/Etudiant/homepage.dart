@@ -1,21 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projet_federe/Models/houses_models.dart';
-import 'package:projet_federe/atoms/cards.dart';
-import 'package:projet_federe/atoms/colors.dart';
-import 'package:projet_federe/atoms/device_dimensions.dart';
-import 'package:projet_federe/atoms/textfields.dart';
+import 'package:projet_federe/pieces/etudiant_cards.dart';
+import 'package:projet_federe/pieces/colors.dart';
+import 'package:projet_federe/pieces/device_dimensions.dart';
+import 'package:projet_federe/pieces/textfields.dart';
 import 'package:projet_federe/pages/Etudiant/houseperhousedetails.dart';
 import 'package:projet_federe/stateManagement/home_state.dart';
 import 'package:projet_federe/stateManagement/search_state.dart';
 import 'package:projet_federe/stateManagement/textfields_state.dart';
 import 'package:provider/provider.dart';
-
 class EtudiantHomePage extends StatelessWidget {
   EtudiantHomePage({super.key});
-
   final User? user = FirebaseAuth.instance.currentUser;
-
   @override
   Widget build(BuildContext context) {
     var controller = Provider.of<TextFieldsState>(context);

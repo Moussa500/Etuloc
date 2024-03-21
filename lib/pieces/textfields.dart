@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:projet_federe/atoms/colors.dart';
+import 'package:projet_federe/pieces/colors.dart';
+import 'package:projet_federe/pieces/device_dimensions.dart';
 
 class CustomTextField extends StatelessWidget {
   final String label;
-  TextEditingController controller;
-  bool? obscured;
-  Icon? icon;
-  double? customwidth;
-  void Function(String)? onChanged;
-  CustomTextField({
+  final TextEditingController controller;
+  final bool? obscured;
+  final Icon? icon;
+  final double? customwidth;
+  final void Function(String)? onChanged;
+  const CustomTextField({
     Key? key,
     required this.label,
     required this.controller,
@@ -17,12 +18,10 @@ class CustomTextField extends StatelessWidget {
     this.onChanged,
     this.obscured,
   }) : super(key: key);
-  double? width;
   @override
   Widget build(BuildContext context) {
-    width = MediaQuery.of(context).size.width;
     return Container(
-      width: customwidth != null ? customwidth : width! * .7,
+      width: customwidth != null ? customwidth : Dimensions.deviceWidth(context)! * .7,
       decoration: BoxDecoration(
         color: myBackgroundColor,
         borderRadius: const BorderRadius.all(Radius.circular(18)),
@@ -51,3 +50,4 @@ class CustomTextField extends StatelessWidget {
     );
   }
 }
+

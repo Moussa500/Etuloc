@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:projet_federe/atoms/buttons.dart';
-import 'package:projet_federe/atoms/colors.dart';
+import 'package:projet_federe/pieces/buttons.dart';
+import 'package:projet_federe/pieces/colors.dart';
 import 'package:projet_federe/pages/Etudiant/houseperhousedetails.dart';
-
 class HousePerPlaceCard extends StatelessWidget {
   final String path;
   final String city;
@@ -85,7 +84,6 @@ class HousePerPlaceCard extends StatelessWidget {
     );
   }
 }
-
 class SubFields extends StatelessWidget {
   const SubFields({
     super.key,
@@ -176,7 +174,7 @@ class HousePerHouseCard extends StatelessWidget {
               padding: const EdgeInsets.only(left: 130),
               child: MainButton(
                 buttonColor: myLabelColor,
-                  height: 35, width: 73, label: "View", onPressed: () {}),
+                  height: 35, width: 73, label: "rent", onPressed: () {}),
             ),
           ],
         )

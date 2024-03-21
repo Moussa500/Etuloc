@@ -1,18 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:string_validator/string_validator.dart';
-
 import '../services/sncak_bar_services.dart';
-
 enum AuthStatus {
   authenticating,
   authenticated,
   notAuthenticating,
   error,
 }
-
 class AuthProvider extends ChangeNotifier {
   User? user;
   AuthStatus authStatus = AuthStatus.notAuthenticating;
@@ -26,7 +22,6 @@ class AuthProvider extends ChangeNotifier {
             context, "Please fill in all the fields");
         return;
       }
-
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       authStatus = AuthStatus.authenticating;
@@ -34,7 +29,7 @@ class AuthProvider extends ChangeNotifier {
       authStatus = AuthStatus.authenticated;
       SnackBarService.showSuccessSnackBar(
           context, 'Welcome ${user!.displayName}');
-      Navigator.pushNamed(context, "etudiant");
+      Navigator.pushNamed(context, "landlord");
       print('Sign in successful');
     } catch (e) {
       authStatus = AuthStatus.error;
@@ -52,7 +47,6 @@ class AuthProvider extends ChangeNotifier {
             context, "Please fill in all the fields");
         return;
       }
-
       if (!isEmail(email)) {
         SnackBarService.showErrorSnackBar(
             context, "Please Enter a valid Email address");
@@ -70,7 +64,6 @@ class AuthProvider extends ChangeNotifier {
             context, "Please Enter a valid phone Number");
         return;
       }
-
       final credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       authStatus = AuthStatus.authenticating;
@@ -79,7 +72,6 @@ class AuthProvider extends ChangeNotifier {
       await users.doc(user!.uid).set({
         'name': name,
         'email': email,
-        'password': password,
         'phone': phoneNumber,
         'status': status,
       });
@@ -95,7 +87,6 @@ class AuthProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
-
   void resetPassword(String email, BuildContext context) async {
     try {
       if (email.isEmpty) {
@@ -103,7 +94,6 @@ class AuthProvider extends ChangeNotifier {
             context, "Please enter your email address");
         return;
       }
-
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       SnackBarService.showSuccessSnackBar(
           context, 'Password reset email sent');
@@ -112,7 +102,6 @@ class AuthProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
-
   String? _handleAuthError(dynamic e) {
     if (e is FirebaseAuthException) {
       switch (e.code) {

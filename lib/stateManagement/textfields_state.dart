@@ -8,8 +8,10 @@ class TextFieldsState extends ChangeNotifier {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController searchController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
   void disposeControllers() {
     emailController.dispose();
+    locationController.dispose();
     passwordController.dispose();
     registerEmailcontroller.dispose();
     registerPasswordController.dispose();

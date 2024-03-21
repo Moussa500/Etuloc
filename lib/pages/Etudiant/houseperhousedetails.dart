@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:projet_federe/Models/houses_models.dart';
-import 'package:projet_federe/atoms/buttons.dart';
-import 'package:projet_federe/atoms/colors.dart';
-import 'package:projet_federe/atoms/device_dimensions.dart';
+import 'package:projet_federe/pieces/buttons.dart';
+import 'package:projet_federe/pieces/colors.dart';
+import 'package:projet_federe/pieces/device_dimensions.dart';
 
 class HouseDetails extends StatelessWidget {
   final HousePerPlacesModel housedetails;
@@ -67,10 +67,10 @@ class HouseDetails extends StatelessWidget {
                 ),
               ),
             ),
-            detail(housedetails: housedetails,label: "Location",info:housedetails.location,),
-            detail(housedetails: housedetails, label: "price", info: "150 DT per place"),
-            detail(housedetails: housedetails, label: "Gender", info: "${housedetails.availablePlaces}/${housedetails.maxPlaces}"),
-            detail(housedetails: housedetails, label: "Type", info: housedetails.type),
+            Details(housedetails: housedetails,label: "Location",info:housedetails.location,),
+            Details(housedetails: housedetails, label: "price", info: "150 DT per place"),
+            Details(housedetails: housedetails, label: "Available places", info: "${housedetails.availablePlaces}/${housedetails.maxPlaces}"),
+            Details(housedetails: housedetails, label: "Type", info: housedetails.type),
             Padding(
               padding: const EdgeInsets.only(left: 20,top: 30),
               child: Row(
@@ -87,11 +87,10 @@ class HouseDetails extends StatelessWidget {
     );
   }
 }
-
-class detail extends StatelessWidget {
+class Details extends StatelessWidget {
   final String label;
   final String info;
-  const detail(
+  const Details(
       {super.key,
       required this.housedetails,
       required this.label,
