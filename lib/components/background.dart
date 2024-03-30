@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:projet_federe/pieces/colors.dart';
-import 'package:projet_federe/pieces/device_dimensions.dart';
+import 'package:projet_federe/components/colors.dart';
+import 'package:projet_federe/components/device_dimensions.dart';
 
 class Background extends StatelessWidget {
   final Widget elements;
@@ -8,7 +8,6 @@ class Background extends StatelessWidget {
     required this.elements,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
     return Center(

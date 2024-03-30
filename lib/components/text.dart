@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projet_federe/pieces/colors.dart';
+import 'package:projet_federe/components/colors.dart';
 
 // ignore: must_be_immutable
 class Header extends StatelessWidget {

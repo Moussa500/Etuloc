@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:projet_federe/pieces/buttons.dart';
-import 'package:projet_federe/pieces/colors.dart';
-import 'package:projet_federe/pages/Etudiant/houseperhousedetails.dart';
+import 'package:projet_federe/components/buttons.dart';
+import 'package:projet_federe/components/colors.dart';
+
 class HousePerPlaceCard extends StatelessWidget {
   final String path;
   final String city;
   final String price;
   final String availablePlaces;
   final String location;
-  void Function() navigate;
-  HousePerPlaceCard({
+  final void Function() navigate;
+  const HousePerPlaceCard({
     super.key,
     required this.navigate,
     required this.path,
@@ -84,6 +84,7 @@ class HousePerPlaceCard extends StatelessWidget {
     );
   }
 }
+
 class SubFields extends StatelessWidget {
   const SubFields({
     super.key,
@@ -174,7 +175,7 @@ class HousePerHouseCard extends StatelessWidget {
               padding: const EdgeInsets.only(left: 130),
               child: MainButton(
                 buttonColor: myLabelColor,
-                  height: 35, width: 73, label: "rent", onPressed: () {}),
+                  height: 35, width: 73, label: "View", onPressed: () {}),
             ),
           ],
         )

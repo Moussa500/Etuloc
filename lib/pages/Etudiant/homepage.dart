@@ -1,28 +1,38 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projet_federe/Models/houses_models.dart';
-import 'package:projet_federe/pieces/etudiant_cards.dart';
-import 'package:projet_federe/pieces/colors.dart';
-import 'package:projet_federe/pieces/device_dimensions.dart';
-import 'package:projet_federe/pieces/textfields.dart';
+import 'package:projet_federe/components/etudiant_cards.dart';
+import 'package:projet_federe/components/colors.dart';
+import 'package:projet_federe/components/device_dimensions.dart';
+import 'package:projet_federe/components/textfields.dart';
 import 'package:projet_federe/pages/Etudiant/houseperhousedetails.dart';
+import 'package:projet_federe/services/auth/auth_service.dart';
 import 'package:projet_federe/stateManagement/home_state.dart';
 import 'package:projet_federe/stateManagement/search_state.dart';
-import 'package:projet_federe/stateManagement/textfields_state.dart';
 import 'package:provider/provider.dart';
+
 class EtudiantHomePage extends StatelessWidget {
   EtudiantHomePage({super.key});
   final User? user = FirebaseAuth.instance.currentUser;
+  //logout function
+  void logout() async {
+    final authService = AuthService();
+    await authService.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var controller = Provider.of<TextFieldsState>(context);
     var houseProvider = Provider.of<HomeState>(context);
     var searchTextProvider = Provider.of<SearchTextProvider>(context);
     List<dynamic> filteredList = houseProvider.combinedList.where((item) {
       if (item is HousePerPlacesModel) {
-        return item.city.toLowerCase().contains(searchTextProvider.searchText.toLowerCase());
+        return item.city
+            .toLowerCase()
+            .contains(searchTextProvider.searchText.toLowerCase());
       } else if (item is HousesPerHouseModels) {
-        return item.city.toLowerCase().contains(searchTextProvider.searchText.toLowerCase());
+        return item.city
+            .toLowerCase()
+            .contains(searchTextProvider.searchText.toLowerCase());
       }
       return false;
     }).toList();
@@ -37,11 +47,19 @@ class EtudiantHomePage extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          actions: const [
-            Icon(
-              Icons.settings,
-              color: myPrimaryColor,
-              size: 40,
+          actions: [
+            GestureDetector(
+              onTap: () {
+                logout();
+              },
+              child: const Padding(
+                padding:  EdgeInsets.all(8.0),
+                child: Icon(
+                  Icons.logout,
+                  color: myPrimaryColor,
+                  size: 40,
+                ),
+              ),
             ),
           ],
         ),
@@ -54,7 +72,8 @@ class EtudiantHomePage extends StatelessWidget {
                   child: CustomTextField(
                     icon: const Icon(Icons.search),
                     label: 'Search',
-                    controller: TextEditingController(text: searchTextProvider.searchText),
+                    controller: TextEditingController(
+                        text: searchTextProvider.searchText),
                     onChanged: (text) {
                       searchTextProvider.searchText = text;
                     },
@@ -90,25 +109,40 @@ class EtudiantHomePage extends StatelessWidget {
                                 path: filteredList[index].images[1],
                                 city: filteredList[index].city,
                                 price: filteredList[index].price,
-                                availablePlaces: (filteredList[index] as HousePerPlacesModel).availablePlaces,
-                                location: (filteredList[index] as HousePerPlacesModel).loc,
+                                availablePlaces:
+                                    (filteredList[index] as HousePerPlacesModel)
+                                        .availablePlaces,
+                                location:
+                                    (filteredList[index] as HousePerPlacesModel)
+                                        .loc,
                                 navigate: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => HouseDetails(housedetails: filteredList[index]),
+                                      builder: (context) => HouseDetails(
+                                          housedetails: filteredList[index]),
                                     ),
                                   );
                                 },
                               )
                             : HousePerHouseCard(
-                                path: (filteredList[index] as HousesPerHouseModels).images[0],
+                                path: (filteredList[index]
+                                        as HousesPerHouseModels)
+                                    .images[0],
                                 city: filteredList[index].city,
                                 price: filteredList[index].price,
-                                location: (filteredList[index] as HousesPerHouseModels).loc,
-                                state: (filteredList[index] as HousesPerHouseModels).state == HouseStates.underNegotiation
+                                location: (filteredList[index]
+                                        as HousesPerHouseModels)
+                                    .loc,
+                                state: (filteredList[index]
+                                                as HousesPerHouseModels)
+                                            .state ==
+                                        HouseStates.underNegotiation
                                     ? "Under negotiation"
-                                    : (filteredList[index] as HousesPerHouseModels).state.toString(),
+                                    : (filteredList[index]
+                                            as HousesPerHouseModels)
+                                        .state
+                                        .toString(),
                               ),
                       ],
                     ),

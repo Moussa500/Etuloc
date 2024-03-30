@@ -1,19 +1,29 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:projet_federe/pieces/buttons.dart';
-import 'package:projet_federe/pieces/text.dart';
-import 'package:projet_federe/pieces/textfields.dart';
+import 'package:projet_federe/components/buttons.dart';
+import 'package:projet_federe/components/text.dart';
+import 'package:projet_federe/components/textfields.dart';
 import 'package:projet_federe/pages/Etudiant/houseperhousedetails.dart';
-import 'package:projet_federe/stateManagement/authprovider.dart';
-import 'package:projet_federe/stateManagement/textfields_state.dart';
-import 'package:provider/provider.dart';
+import 'package:projet_federe/services/auth/auth_service.dart';
+import 'package:projet_federe/services/sncak_bar_services.dart';
 
-class resetPassword extends StatelessWidget {
-  const resetPassword({super.key});
+class ResetPassword extends StatelessWidget {
+  ResetPassword({super.key});
+  final _emailController = TextEditingController();
+  void resetPassword(BuildContext context) async {
+    final authService = AuthService();
+    try {
+      await authService.resetPassword(_emailController.text);
+      SnackBarService.showSuccessSnackBar(
+          // ignore: use_build_context_synchronously
+          context, "a password reset email was successfuly sent to your email");
+    } on FirebaseAuthException catch (e) {
+      SnackBarService.showErrorSnackBar(context, e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    var authProvider = Provider.of<AuthProvider>(context);
-    var controller = Provider.of<TextFieldsState>(context);
     return Scaffold(
       appBar: AppBar(),
       body: Background(
@@ -39,7 +49,7 @@ class resetPassword extends StatelessWidget {
             ),
             CustomTextField(
               label: "Email",
-              controller: controller.emailController,
+              controller: _emailController,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 35),
@@ -48,8 +58,7 @@ class resetPassword extends StatelessWidget {
                   width: 221,
                   label: "Recover Password",
                   onPressed: () {
-                    authProvider.resetPassword(
-                        controller.emailController.text, context);
+                    resetPassword(context);
                   }),
             ),
           ],

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:projet_federe/pieces/colors.dart';
+import 'package:projet_federe/components/colors.dart';
 class LogRegButton extends StatelessWidget {
-  Color buttonColor;
-  void Function() onPressed;
-  String label;
-  LogRegButton(
+  final Color buttonColor;
+  final void Function()? onPressed;
+  final String label;
+  const LogRegButton(
       {super.key,
       required this.buttonColor,
       required this.label,
@@ -43,13 +43,13 @@ class LogRegButton extends StatelessWidget {
   }
 }
 class MainButton extends StatelessWidget {
-  double height;
-  double width;
-  String label;
-  Color? buttonColor;
-  Color? textColor;
-  void Function() onPressed;
-  MainButton(
+  final double height;
+  final double width;
+  final String label;
+  final Color? buttonColor;
+  final Color? textColor;
+  final void Function() onPressed;
+  const MainButton(
       {super.key,
       required this.height,
       this.buttonColor,

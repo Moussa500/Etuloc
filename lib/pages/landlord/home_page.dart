@@ -1,15 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:projet_federe/Models/houses_models.dart';
-import 'package:projet_federe/pieces/buttons.dart';
-import 'package:projet_federe/pieces/etudiant_cards.dart';
-import 'package:projet_federe/pieces/colors.dart';
-import 'package:projet_federe/pieces/device_dimensions.dart';
-import 'package:projet_federe/pieces/textfields.dart';
+import 'package:projet_federe/components/buttons.dart';
+import 'package:projet_federe/components/textfields.dart';
 import 'package:projet_federe/stateManagement/home_state.dart';
 import 'package:projet_federe/stateManagement/search_state.dart';
-import 'package:projet_federe/stateManagement/textfields_state.dart';
 import 'package:provider/provider.dart';
 
 class LandLordHomePage extends StatelessWidget {
@@ -17,7 +12,6 @@ class LandLordHomePage extends StatelessWidget {
   final User? user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
-    var controller = Provider.of<TextFieldsState>(context);
     var houseProvider = Provider.of<HomeState>(context);
     var searchTextProvider = Provider.of<SearchTextProvider>(context);
     List<dynamic> filteredList = houseProvider.combinedList.where((item) {

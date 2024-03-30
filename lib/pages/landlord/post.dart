@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:projet_federe/pieces/background.dart';
-import 'package:projet_federe/pieces/colors.dart';
-import 'package:projet_federe/pieces/device_dimensions.dart';
-import 'package:projet_federe/pieces/text.dart';
+import 'package:projet_federe/components/background.dart';
+import 'package:projet_federe/components/colors.dart';
+import 'package:projet_federe/components/device_dimensions.dart';
+import 'package:projet_federe/components/text.dart';
 import '../../stateManagement/textfields_state.dart';
 import 'package:provider/provider.dart';
-class Post extends StatelessWidget {
-  const Post({super.key});
 
+class Post extends StatelessWidget {
+  Post({super.key});
+  final TextEditingController locationController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    var controller=Provider.of<TextFieldsState>(context);
-    return  Scaffold(
-      body: Background(elements: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: 
-      [
-        Header(label: "Post a House"),
-        PostTextField(label:'', controller:controller.locationController)
-      ],),),
+    return Scaffold(
+      body: Background(
+        elements: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Header(label: "Post a House"),
+            PostTextField(label: '', controller: locationController)
+          ],
+        ),
+      ),
     );
   }
 }
@@ -42,7 +44,9 @@ class PostTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: customwidth != null ? customwidth : Dimensions.deviceWidth(context)! * .7,
+      width: customwidth != null
+          ? customwidth
+          : Dimensions.deviceWidth(context) * .7,
       decoration: BoxDecoration(
         color: myBackgroundColor,
         borderRadius: const BorderRadius.all(Radius.circular(18)),
@@ -58,10 +62,13 @@ class PostTextField extends StatelessWidget {
             textDirection: TextDirection.ltr,
             controller: controller,
             onChanged: onChanged,
-            obscureText: obscured==null?false:true,
+            obscureText: obscured == null ? false : true,
             decoration: InputDecoration(
-              suffix: DropdownMenu(dropdownMenuEntries: [DropdownMenuEntry(value: Text('value'), label: 'Location')
-              ],),
+              suffix: DropdownMenu(
+                dropdownMenuEntries: [
+                  DropdownMenuEntry(value: Text('value'), label: 'Location')
+                ],
+              ),
               prefixIcon: icon,
               hintText: label,
               hintStyle: const TextStyle(fontSize: 20),

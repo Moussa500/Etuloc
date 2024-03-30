@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:projet_federe/pieces/colors.dart';
-import 'package:projet_federe/pieces/device_dimensions.dart';
-
+import 'package:projet_federe/components/colors.dart';
+import 'package:projet_federe/components/device_dimensions.dart';
 class CustomTextField extends StatelessWidget {
   final String label;
   final TextEditingController controller;
@@ -21,7 +20,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: customwidth != null ? customwidth : Dimensions.deviceWidth(context)! * .7,
+      width: customwidth != null ? customwidth : Dimensions.deviceWidth(context) * .7,
       decoration: BoxDecoration(
         color: myBackgroundColor,
         borderRadius: const BorderRadius.all(Radius.circular(18)),

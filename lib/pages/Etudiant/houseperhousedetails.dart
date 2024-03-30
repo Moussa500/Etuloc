@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:projet_federe/Models/houses_models.dart';
-import 'package:projet_federe/pieces/buttons.dart';
-import 'package:projet_federe/pieces/colors.dart';
-import 'package:projet_federe/pieces/device_dimensions.dart';
+import 'package:projet_federe/components/buttons.dart';
+import 'package:projet_federe/components/colors.dart';
+import 'package:projet_federe/components/device_dimensions.dart';
 
 class HouseDetails extends StatelessWidget {
   final HousePerPlacesModel housedetails;

@@ -1,15 +1,33 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:projet_federe/pieces/buttons.dart';
-import 'package:projet_federe/pieces/device_dimensions.dart';
-import 'package:projet_federe/pieces/text.dart';
-import 'package:projet_federe/pieces/textfields.dart';
-import 'package:projet_federe/pieces/colors.dart';
-import 'package:projet_federe/stateManagement/authprovider.dart';
-import 'package:projet_federe/stateManagement/textfields_state.dart';
-import 'package:provider/provider.dart';
+import 'package:projet_federe/components/background.dart';
+import 'package:projet_federe/components/buttons.dart';
+import 'package:projet_federe/components/device_dimensions.dart';
+import 'package:projet_federe/components/text.dart';
+import 'package:projet_federe/components/textfields.dart';
+import 'package:projet_federe/components/colors.dart';
+import 'package:projet_federe/services/auth/auth_service.dart';
+import 'package:projet_federe/services/sncak_bar_services.dart';
 
 class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+  final void Function()? onTap;
+  LoginPage({super.key, required this.onTap});
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  void login(BuildContext context) async {
+    //auth service
+    final authService = AuthService();
+    //try login
+    try {
+      await authService.signInWithEmailPassword(
+          _emailController.text, _passwordController.text);
+      SnackBarService.showSuccessSnackBar(context, "Welcome");
+    } catch (e) {
+      SnackBarService.showErrorSnackBar(context, e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +35,85 @@ class LoginPage extends StatelessWidget {
       child: Scaffold(
         body: Center(
           child: SingleChildScrollView(
-            child: BackgroundContainer(
-              deviceheight: Dimensions.deviceHeight(context),
-              devicewidh: Dimensions.deviceWidth(context),
+            child: Background(
+              elements: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  ButtonSlider(
+                    loginTap: () {},
+                    registerTap: onTap,
+                    mainButtonColor: mySecondaryColor,
+                    sideButtonColor: myBackgroundColor,
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(right: 56, top: 50, bottom: 60),
+                    child: Column(
+                      children: [
+                        Header(
+                          label: 'Welcome back,',
+                        ),
+                        const Text(
+                          'Happy to see you again',
+                          style: TextStyle(
+                            color: myLabelColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      CustomTextField(
+                        label: 'email',
+                        controller: _emailController,
+                      ),
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      CustomTextField(
+                        label: "password",
+                        controller: _passwordController,
+                        obscured: true,
+                      ),
+                      const SizedBox(
+                        height: 35,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 95),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, "reset");
+                          },
+                          child: const Text(
+                            'Forget Password ?',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w400,
+                              color: myLabelColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      MainButton(
+                          height: 70,
+                          width: Dimensions.deviceWidth(context) * .6,
+                          label: 'Login',
+                          onPressed: () {
+                            login(context);
+                          }),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -28,119 +122,15 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-class BackgroundContainer extends StatelessWidget {
-  const BackgroundContainer({
-    super.key,
-    required this.deviceheight,
-    required this.devicewidh,
-  });
-  final double? deviceheight;
-  final double? devicewidh;
-  @override
-  Widget build(BuildContext context) {
-    var textFieldsState = Provider.of<TextFieldsState>(context);
-    var authentication = Provider.of<AuthProvider>(context);
-    return Container(
-      height: deviceheight! * .87,
-      width: devicewidh! * 0.87,
-      decoration: const BoxDecoration(
-        color: myBackgroundColor,
-        borderRadius: BorderRadius.all(Radius.circular(35)),
-        boxShadow: [
-          BoxShadow(
-            offset: Offset(0, 3),
-            blurRadius: 6,
-            color: myShadowColor,
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 20,
-          ),
-          ButtonSlider(
-            mainButtonColor: mySecondaryColor,
-            sideButtonColor: myBackgroundColor,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 56, top: 50, bottom: 60),
-            child: Column(
-              children: [
-                Header(
-                  label: 'Welcome back,',
-                ),
-                const Text(
-                  'Happy to see you again',
-                  style: TextStyle(
-                    color: myLabelColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Column(
-            children: [
-              CustomTextField(
-                label: 'email',
-                controller: textFieldsState.emailController,
-              ),
-              const SizedBox(
-                height: 50,
-              ),
-              CustomTextField(
-                label: "password",
-                controller: textFieldsState.passwordController,
-                obscured: true,
-              ),
-              const SizedBox(
-                height: 35,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 95),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, "reset");
-                  },
-                  child: const Text(
-                    'Forget Password ?',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                      color: myLabelColor,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              MainButton(
-                  height: 70,
-                  width: devicewidh! * .6,
-                  label: 'Login',
-                  onPressed: () {
-                    authentication.loginWithEmailandPassword(
-                        textFieldsState.emailController.text,
-                        textFieldsState.passwordController.text,
-                        context);
-                  }),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class ButtonSlider extends StatelessWidget {
-  Color mainButtonColor;
-  Color sideButtonColor;
-  ButtonSlider(
+  final void Function()? loginTap;
+  final void Function()? registerTap;
+  final Color mainButtonColor;
+  final Color sideButtonColor;
+  const ButtonSlider(
       {super.key,
+      required this.loginTap,
+      required this.registerTap,
       required this.mainButtonColor,
       required this.sideButtonColor});
   @override
@@ -156,16 +146,12 @@ class ButtonSlider extends StatelessWidget {
         children: [
           LogRegButton(
             label: 'Sign in',
-            onPressed: () {
-              Navigator.pushNamed(context, "login");
-            },
+            onPressed: loginTap,
             buttonColor: mainButtonColor,
           ),
           LogRegButton(
             label: 'Sign Up',
-            onPressed: () {
-              Navigator.pushNamed(context, "register");
-            },
+            onPressed: registerTap,
             buttonColor: sideButtonColor,
           ),
         ],
