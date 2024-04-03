@@ -7,7 +7,6 @@ import 'package:projet_federe/pages/landlord/post.dart';
 import 'package:projet_federe/pages/landlord/profile_ui.dart';
 import 'package:projet_federe/pages/reset_password.dart';
 import 'package:projet_federe/services/auth/auth_gate.dart';
-import 'package:projet_federe/services/auth/login_or_signup.dart';
 import 'package:projet_federe/stateManagement/checkbox.dart';
 import 'package:projet_federe/stateManagement/home_state.dart';
 import 'package:projet_federe/stateManagement/search_state.dart';
@@ -32,8 +31,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: "auth_gate",
         routes: {
-          "auth_gate":(context) => const AuthGate(),
-          "login_or_signup": (context) => const LoginOrRegister(),
+          "auth_gate":(context) =>  AuthGate(),
           "etudiant": (context) => EtudiantHomePage(),
           "reset":(context)=> ResetPassword(),
           "landlord":(context) =>LandLordHomePage(), 

@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:projet_federe/components/background.dart';
 import 'package:projet_federe/components/buttons.dart';
@@ -20,8 +19,7 @@ class RegisterPage extends StatelessWidget {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
-  late String status;
-  void register(BuildContext context) {
+  void register(BuildContext context, String status) {
     final authService = AuthService();
     //try register
     try {
@@ -37,7 +35,6 @@ class RegisterPage extends StatelessWidget {
       SnackBarService.showErrorSnackBar(context, e.toString());
     }
   }
-
   @override
   Widget build(BuildContext context) {
     var checkBoxChanger = Provider.of<CheckBoxChanger>(context);
@@ -126,10 +123,11 @@ class RegisterPage extends StatelessWidget {
                           width: Dimensions.deviceWidth(context) * .6,
                           label: 'Sign Up',
                           onPressed: () {
+                            String status;
                             checkBoxChanger.value == true
                                 ? status = "student"
                                 : status = "landlord";
-                            register(context);
+                            register(context,status);
                           },
                         ),
                       ],

@@ -1,10 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:projet_federe/services/firestore/firestore.dart';
 
 class AuthService {
   //instance of auth
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  FireStoreService _fireStoreService = FireStoreService();
   //get current user
   User? getCurrentUser() {
     return _auth.currentUser;
@@ -20,22 +20,16 @@ class AuthService {
       throw Exception(e.code);
     }
   }
-
   //sign up
   Future<UserCredential> signUpWithEmailPassword(
       String email, password, name, phone, status) async {
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
-      //save user info in a separate doc
-      _firestore.collection("users").doc(userCredential.user!.uid).set({
-        "uid": userCredential.user!.uid,
-        'email': email,
-        "name": name,
-        "phone": phone,
-        "status": status,
-      });
+      //add the fields to a separate folder
+       await _fireStoreService.saveUsersInfo(email, name, phone, status,userCredential.user!.uid);
       User user = userCredential.user!;
+      //save the name and the phone number of the user
       user.updateDisplayName(name);
       user.updatePhoneNumber(phone);
       return userCredential;

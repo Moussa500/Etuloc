@@ -3,15 +3,34 @@ import 'package:projet_federe/components/background.dart';
 import 'package:projet_federe/components/colors.dart';
 import 'package:projet_federe/components/device_dimensions.dart';
 import 'package:projet_federe/components/text.dart';
+import 'package:projet_federe/services/auth/auth_service.dart';
 import '../../stateManagement/textfields_state.dart';
 import 'package:provider/provider.dart';
 
 class Post extends StatelessWidget {
   Post({super.key});
   final TextEditingController locationController = TextEditingController();
+  //logout function
+  void logout() async {
+    final authService = AuthService();
+    await authService.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: GestureDetector(
+                onTap: () {
+                  logout();
+                },
+                child: const Icon(Icons.logout)),
+          )
+        ],
+      ),
       body: Background(
         elements: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

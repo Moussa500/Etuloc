@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projet_federe/Models/houses_models.dart';
 import 'package:projet_federe/components/buttons.dart';
+import 'package:projet_federe/components/my_drawer.dart';
 import 'package:projet_federe/components/textfields.dart';
 import 'package:projet_federe/stateManagement/home_state.dart';
 import 'package:projet_federe/stateManagement/search_state.dart';
@@ -9,12 +10,11 @@ import 'package:provider/provider.dart';
 
 class LandLordHomePage extends StatelessWidget {
   LandLordHomePage({super.key});
-  final User? user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     var houseProvider = Provider.of<HomeState>(context);
     var searchTextProvider = Provider.of<SearchTextProvider>(context);
-    List<dynamic> filteredList = houseProvider.combinedList.where((item) {
+    List<dynamic> filteredList = houseProvider.combinedList.where((item){
       if (item is HousePerPlacesModel) {
         return item.city
             .toLowerCase()
@@ -28,26 +28,16 @@ class LandLordHomePage extends StatelessWidget {
     }).toList();
     return SafeArea(
       child: Scaffold(
+        drawer: MyDrawer(),
         appBar: AppBar(
           title: Text(
-            'Hello ${user!.displayName}',
+            'Hello ${FirebaseAuth.instance.currentUser!.displayName}',
             style: const TextStyle(
               fontFamily: "poppins",
               fontSize: 30,
               fontWeight: FontWeight.w600,
             ),
           ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GestureDetector(
-                child: CircleAvatar(),
-                onTap: () {
-                  Navigator.pushNamed(context, 'profile');
-                },
-              ),
-            )
-          ],
         ),
         body: SingleChildScrollView(
           child: Column(
