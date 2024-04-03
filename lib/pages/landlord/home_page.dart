@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projet_federe/Models/houses_models.dart';
-import 'package:projet_federe/components/buttons.dart';
+import 'package:projet_federe/components/colors.dart';
 import 'package:projet_federe/components/my_drawer.dart';
 import 'package:projet_federe/components/textfields.dart';
 import 'package:projet_federe/stateManagement/home_state.dart';
@@ -28,7 +28,8 @@ class LandLordHomePage extends StatelessWidget {
     }).toList();
     return SafeArea(
       child: Scaffold(
-        drawer: MyDrawer(),
+        floatingActionButton: FloatingActionButton(onPressed: (){},backgroundColor: myPrimaryColor,child: const Icon(Icons.add,color: Colors.white,),),
+        drawer: const MyDrawer(),
         appBar: AppBar(
           title: Text(
             'Hello ${FirebaseAuth.instance.currentUser!.displayName}',
@@ -60,13 +61,6 @@ class LandLordHomePage extends StatelessWidget {
               const SizedBox(
                 height: 50,
               ),
-              MainButton(
-                  height: 55,
-                  width: 221,
-                  label: 'Post',
-                  onPressed: () {
-                    Navigator.pushNamed(context, "post");
-                  })
             ],
           ),
         ),

@@ -12,7 +12,6 @@ class AuthGate extends StatelessWidget {
   //get the status of the user from the firestore
   String? status;
   FireStoreService _fireStoreService = FireStoreService();
-
   User? user;
   @override
   Widget build(BuildContext context) {

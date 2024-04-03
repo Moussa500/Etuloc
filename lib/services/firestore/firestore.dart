@@ -33,9 +33,18 @@ class FireStoreService {
   Future<dynamic> getValueFromFirestore(DocumentReference docRef) async {
     DocumentSnapshot snapshot = await docRef.get();
     if (snapshot.exists) {
-      return snapshot.data(); 
+      return snapshot.data();
     } else {
-      return null; 
+      return null;
     }
   }
+  //update infos
+Future<void> updateInfos(String collection, String docId, String newValue,String field)  {
+  return  FirebaseFirestore.instance
+      .collection(collection)
+      .doc(docId)
+      .update({
+        field:newValue,
+      });
+}
 }

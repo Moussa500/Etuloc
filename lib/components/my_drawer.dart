@@ -16,17 +16,28 @@ class MyDrawer extends StatelessWidget {
         children: [
           Column(
             children: [
-              const DrawerHeader(
-                child: Text(
-                  "M E N U",
-                  style: TextStyle(fontSize: 40, color: Colors.white),
+              const Padding(
+                padding: EdgeInsets.all(25.0),
+                child: DrawerHeader(
+                  decoration: BoxDecoration(),
+                  child: Text(
+                    "E T U L O C",
+                    style: TextStyle(fontSize: 40, color: Colors.white),
+                  ),
                 ),
               ),
               //User Profile
               Center(
                   child: Padding(
                 padding: const EdgeInsets.only(left: 40),
-                child: ItemListTile(label: "Profile", icon: Icons.person,ontap: (){},),
+                child: ItemListTile(
+                  label: "Profile",
+                  icon: Icons.person,
+                  ontap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, "profile");
+                  },
+                ),
               )),
               const SizedBox(
                 height: 25,
@@ -34,7 +45,11 @@ class MyDrawer extends StatelessWidget {
               Center(
                   child: Padding(
                 padding: const EdgeInsets.only(left: 40),
-                child: ItemListTile(label: "HomePage", icon: Icons.home,ontap: ()=>Navigator.pop(context),),
+                child: ItemListTile(
+                  label: "HomePage",
+                  icon: Icons.home,
+                  ontap: () => Navigator.pop(context),
+                ),
               )),
             ],
           ),
@@ -43,7 +58,7 @@ class MyDrawer extends StatelessWidget {
               child: Padding(
             padding: const EdgeInsets.only(left: 40),
             child: ItemListTile(
-              label: "HomePage",
+              label: "Logout",
               icon: Icons.logout,
               ontap: () {
                 AuthService auth = AuthService();
