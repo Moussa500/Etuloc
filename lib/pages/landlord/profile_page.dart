@@ -84,7 +84,7 @@ class _ProfileState extends State<Profile> {
                         label: 'Update',
                         onPressed: () async {
                           bool test = true;
-                          //update infos if you user filled the textfields
+                          //update infos if the user filled the textfields
                           if (cityController.text != "") {
                             setState(() {
                               _fireStoreService.updateInfos('landlordsProfile',
@@ -130,6 +130,7 @@ class _ProfileState extends State<Profile> {
                                   "Please Enter a valid phone Number ");
                               test = false;
                             }
+                          }
                             if (imageFile != null) {
                               String downloadUrl = await _storageService
                                   .uploadImage(imageFile!.path);
@@ -142,7 +143,6 @@ class _ProfileState extends State<Profile> {
                                 imagePath = downloadUrl.toString();
                               });
                             }
-                          }
                           if (test) {
                             SnackBarService.showSuccessSnackBar(
                                 context, "Your Infos updated successfully");
@@ -154,7 +154,6 @@ class _ProfileState extends State<Profile> {
               ),
             ));
   }
-
   User currentUser = FirebaseAuth.instance.currentUser!;
   final CollectionReference _profileReference =
       FirebaseFirestore.instance.collection('landlordsProfile');
@@ -383,18 +382,27 @@ class _ProfileState extends State<Profile> {
 
 //rating section
   ProfileListTile rate(value) {
-      int avg = value["sum_ratings"] ~/ value["number_ratings"];
+    int avg = value["sum_ratings"] ~/ value["number_ratings"];
     return ProfileListTile(
-        label: "Rating :",
-        content: value["number_ratings"] == 0
-            ? const Text(
-                "not rated yet",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black,
-                ),
-              )
-            : Text(avg.toString()));
+      label: "Rating :",
+      content: value["number_ratings"] == 0
+          ? const Text(
+              "not rated yet",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+                color: Colors.black,
+              ),
+            )
+          : SizedBox(
+            width: 50,
+            height: 50,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: avg,
+                itemBuilder: (context, index) {
+                return SvgPicture.asset("assets/images/star.svg",height: 25,width: 25,);
+              })),
+    );
   }
 }
