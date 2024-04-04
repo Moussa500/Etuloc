@@ -18,7 +18,7 @@ class FireStoreService {
           "uid": uid,
           "phone_number": phone,
           "name": name,
-          "rate": 0,
+          "rate": <int>[],
           "posted_houses": 0,
           "rented_houses": 0,
           "city": "",
@@ -39,7 +39,7 @@ class FireStoreService {
     }
   }
   //update infos
-Future<void> updateInfos(String collection, String docId, String newValue,String field)  {
+Future<void> updateInfos(String collection, String docId, var newValue,String field)  {
   return  FirebaseFirestore.instance
       .collection(collection)
       .doc(docId)

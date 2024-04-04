@@ -5,13 +5,12 @@ import 'package:projet_federe/pages/Etudiant/homepage.dart';
 import 'package:projet_federe/pages/landlord/home_page.dart';
 import 'package:projet_federe/services/auth/login_or_signup.dart';
 import 'package:projet_federe/services/firestore/firestore.dart';
-import 'package:projet_federe/services/sncak_bar_services.dart';
 
 class AuthGate extends StatelessWidget {
   AuthGate({super.key});
   //get the status of the user from the firestore
   String? status;
-  FireStoreService _fireStoreService = FireStoreService();
+  final FireStoreService _fireStoreService = FireStoreService();
   User? user;
   @override
   Widget build(BuildContext context) {

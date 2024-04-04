@@ -39,10 +39,11 @@ dependencies:
   firebase_core: ^2.25.4
   firebase_auth: ^4.17.4
   cloud_firestore: ^4.15.5
-  firebase_storage: ^11.6.6
+  firebase_storage: ^11.7.0
   google_fonts: ^6.1.0
   string_validator: ^1.0.2
   svg_flutter: ^0.0.1
+  image_picker: ^1.0.7
 
 dev_dependencies:
   flutter_test:

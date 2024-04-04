@@ -9,7 +9,6 @@ class AuthService {
   User? getCurrentUser() {
     return _auth.currentUser;
   }
-
   //sign in
   Future<UserCredential> signInWithEmailPassword(String email, password) async {
     try {
@@ -37,12 +36,10 @@ class AuthService {
       throw Exception(e.code);
     }
   }
-
   //sign out
   Future<void> signOut() async {
     return await _auth.signOut();
   }
-
   //reset password
   Future<void> resetPassword(String email) async {
     return await _auth.sendPasswordResetEmail(email: email);
