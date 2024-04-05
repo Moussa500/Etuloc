@@ -32,7 +32,6 @@ class FireStoreService {
       print(e);
     }
   }
-
   //get infos from the firebase
   Future<dynamic> getValueFromFirestore(DocumentReference docRef) async {
     DocumentSnapshot snapshot = await docRef.get();
@@ -42,7 +41,6 @@ class FireStoreService {
       return null;
     }
   }
-
   //update infos
   Future<void> updateInfos(
       String collection, String docId, var newValue, String field) {

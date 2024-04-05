@@ -1,6 +1,4 @@
 // ignore_for_file: use_build_context_synchronously
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projet_federe/components/background.dart';
 import 'package:projet_federe/components/buttons.dart';
@@ -23,7 +21,7 @@ class LoginPage extends StatelessWidget {
     try {
       await authService.signInWithEmailPassword(
           _emailController.text, _passwordController.text);
-      SnackBarService.showSuccessSnackBar(context, "Welcome");
+      SnackBarService.showSuccessSnackBar(context, "Welcomes");
     } catch (e) {
       SnackBarService.showErrorSnackBar(context, e.toString());
     }

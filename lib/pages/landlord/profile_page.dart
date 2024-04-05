@@ -133,7 +133,7 @@ class _ProfileState extends State<Profile> {
                           }
                             if (imageFile != null) {
                               String downloadUrl = await _storageService
-                                  .uploadImage(imageFile!.path);
+                                  .uploadImage('images',imageFile!.path);
                               _fireStoreService.updateInfos(
                                   'landlordsProfile',
                                   currentUser.uid,
