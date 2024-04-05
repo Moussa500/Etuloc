@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projet_federe/components/colors.dart';
 import 'package:projet_federe/components/device_dimensions.dart';
+
 class CustomTextField extends StatelessWidget {
   final String label;
   final TextEditingController controller;
@@ -8,6 +9,7 @@ class CustomTextField extends StatelessWidget {
   final Icon? icon;
   final double? customwidth;
   final void Function(String)? onChanged;
+  final Widget? suffix;
   const CustomTextField({
     Key? key,
     required this.label,
@@ -16,11 +18,14 @@ class CustomTextField extends StatelessWidget {
     this.customwidth,
     this.onChanged,
     this.obscured,
+    this.suffix,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: customwidth != null ? customwidth : Dimensions.deviceWidth(context) * .7,
+      width: customwidth != null
+          ? customwidth
+          : Dimensions.deviceWidth(context) * .7,
       decoration: BoxDecoration(
         color: myBackgroundColor,
         borderRadius: const BorderRadius.all(Radius.circular(18)),
@@ -36,8 +41,9 @@ class CustomTextField extends StatelessWidget {
             textDirection: TextDirection.ltr,
             controller: controller,
             onChanged: onChanged,
-            obscureText: obscured==null?false:true,
+            obscureText: obscured == null ? false : true,
             decoration: InputDecoration(
+              suffix: suffix,
               prefixIcon: icon,
               hintText: label,
               hintStyle: const TextStyle(fontSize: 20),
@@ -49,4 +55,3 @@ class CustomTextField extends StatelessWidget {
     );
   }
 }
-

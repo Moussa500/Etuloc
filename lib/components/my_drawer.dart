@@ -5,7 +5,6 @@ import 'package:projet_federe/services/auth/auth_service.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Drawer(

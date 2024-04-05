@@ -5,7 +5,6 @@ import 'package:projet_federe/pages/Etudiant/homepage.dart';
 import 'package:projet_federe/pages/landlord/home_page.dart';
 import 'package:projet_federe/services/auth/login_or_signup.dart';
 import 'package:projet_federe/services/firestore/firestore.dart';
-
 class AuthGate extends StatelessWidget {
   AuthGate({super.key});
   //get the status of the user from the firestore

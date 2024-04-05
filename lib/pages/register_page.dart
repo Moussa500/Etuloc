@@ -42,9 +42,9 @@ class RegisterPage extends StatelessWidget {
       child: SafeArea(
         child: Scaffold(
           body: Center(
-            child: SingleChildScrollView(
-              child: Background(
-                elements: Column(
+            child: Background(
+              elements: SingleChildScrollView(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const SizedBox(

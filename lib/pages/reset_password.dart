@@ -6,7 +6,6 @@ import 'package:projet_federe/components/textfields.dart';
 import 'package:projet_federe/pages/Etudiant/houseperhousedetails.dart';
 import 'package:projet_federe/services/auth/auth_service.dart';
 import 'package:projet_federe/services/sncak_bar_services.dart';
-
 class ResetPassword extends StatelessWidget {
   ResetPassword({super.key});
   final _emailController = TextEditingController();
