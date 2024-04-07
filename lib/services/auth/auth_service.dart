@@ -21,7 +21,7 @@ class AuthService {
   }
   //sign up
   Future<UserCredential> signUpWithEmailPassword(
-      String email, password, name, phone, status) async {
+      String email, password,name, phone, status) async {
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
@@ -29,8 +29,8 @@ class AuthService {
        await _fireStoreService.saveUsersInfo(email, name, phone, status,userCredential.user!.uid);
       User user = userCredential.user!;
       //save the name and the phone number of the user
-      user.updateDisplayName(name);
-      user.updatePhoneNumber(phone);
+      await user.updateDisplayName(name);
+      await user.updatePhoneNumber(phone);
       return userCredential;
     } on FirebaseAuthException catch (e) {
       throw Exception(e.code);

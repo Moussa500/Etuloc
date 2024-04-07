@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projet_federe/components/buttons.dart';
 import 'package:projet_federe/components/colors.dart';
+import 'package:projet_federe/components/device_dimensions.dart';
 
 class LandLordCard extends StatelessWidget {
   final String path;
@@ -23,68 +24,82 @@ class LandLordCard extends StatelessWidget {
   @override
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 30),
-          child: Container(
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(30))),
-            height: 143,
-            width: 107,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(30)),
-              child: Image.asset(
-                path,
-                fit: BoxFit.fill,
-              ),
-            ),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        padding: EdgeInsets.all(10),
+        width: Dimensions.deviceWidth(context)*.7,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(15)
           ),
+          boxShadow: [
+            BoxShadow(offset: Offset(0, 3),
+            blurRadius: 6,
+            )
+          ]
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 10, left: 10),
-              child: Text(
-                "House in $city",
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: "poppins",
-                  color: myTitlesColor,
+            Container(
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(30))),
+              height: 143,
+              width: 107,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(30)),
+                child: Image.network(
+                  path,
+                  fit: BoxFit.fill,
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 11, bottom: 5),
-              child: SubFields(label: "price", value: "${price.toString()} DT"),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 5, left: 11),
-              child: SubFields(label: "Location", value: location),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 5, left: 11),
-              child: availablePlaces!=null?SubFields(
-                  label:"available places",
-                  value: "${availablePlaces.toString()} free places"):SubFields(label: "state", value:"$state"),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 130),
-              child: MainButton(
-                  height: 35, width: 73, label: "Edit", onPressed: () {}),
-            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, left: 10),
+                  child: Text(
+                    "House in $city",
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: "poppins",
+                      color: myTitlesColor,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 11, bottom: 5),
+                  child: SubFields(label: "price", value: "${price.toString()} DT"),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5, left: 11),
+                  child: SubFields(label: "Location", value: location),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5, left: 11),
+                  child: availablePlaces!=null?SubFields(
+                      label:"available places",
+                      value: "${availablePlaces.toString()} free places"):SubFields(label: "state", value:"$state"),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 130),
+                  child: MainButton(
+                      height: 35, width: 73, label: "Edit", onPressed: () {}),
+                ),
+              ],
+            )
           ],
-        )
-      ],
+        ),
+      ),
     );
   }
 }

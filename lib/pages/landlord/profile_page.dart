@@ -32,8 +32,15 @@ class _ProfileState extends State<Profile> {
   //phone controller
   TextEditingController phoneController = TextEditingController();
   final FireStoreService _fireStoreService = FireStoreService();
+  // Boolean variables that can potentially be null
+  bool cityVisibility = false; // Initialized as false by default
+  bool phoneVisibility = false; // Initialized as false by default
+  User currentUser = FirebaseAuth.instance.currentUser!;
+  final CollectionReference _profileReference =
+      FirebaseFirestore.instance.collection('landlordsProfile');
+
   //edit the user infos
-  void editUserInfos() {
+  void editUserInfos() async {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -52,7 +59,7 @@ class _ProfileState extends State<Profile> {
                               "Your image has been uploaded successfully");
                         } else {
                           SnackBarService.showErrorSnackBar(context,
-                              "Error occured while uploading your image");
+                              "Error occurred while uploading your image");
                         }
                       },
                       child: Image.asset(
@@ -85,13 +92,13 @@ class _ProfileState extends State<Profile> {
                         onPressed: () async {
                           bool test = true;
                           //update infos if the user filled the textfields
-                          if (cityController.text != "") {
+                          if (cityController.text.isNotEmpty) {
                             setState(() {
                               _fireStoreService.updateInfos('landlordsProfile',
                                   currentUser.uid, cityController.text, 'city');
                             });
                           }
-                          if (nameController.text != "") {
+                          if (nameController.text.isNotEmpty) {
                             //check if it is a valid name
                             if (isAlpha(nameController.text)) {
                               setState(() {
@@ -109,7 +116,7 @@ class _ProfileState extends State<Profile> {
                               test = false;
                             }
                           }
-                          if (phoneController.text != "") {
+                          if (phoneController.text.isNotEmpty) {
                             //check if it is a valid phone number
                             if (isNumeric(phoneController.text) &&
                                 phoneController.text.length == 8) {
@@ -131,18 +138,18 @@ class _ProfileState extends State<Profile> {
                               test = false;
                             }
                           }
-                            if (imageFile != null) {
-                              String downloadUrl = await _storageService
-                                  .uploadImage('images',imageFile!.path);
-                              _fireStoreService.updateInfos(
-                                  'landlordsProfile',
-                                  currentUser.uid,
-                                  downloadUrl.toString(),
-                                  'pdp');
-                              setState(() {
-                                imagePath = downloadUrl.toString();
-                              });
-                            }
+                          if (imageFile != null) {
+                            String downloadUrl = await _storageService
+                                .uploadImage('images',imageFile!.path);
+                            _fireStoreService.updateInfos(
+                                'landlordsProfile',
+                                currentUser.uid,
+                                downloadUrl.toString(),
+                                'pdp');
+                            setState(() {
+                              imagePath = downloadUrl.toString();
+                            });
+                          }
                           if (test) {
                             SnackBarService.showSuccessSnackBar(
                                 context, "Your Infos updated successfully");
@@ -154,9 +161,7 @@ class _ProfileState extends State<Profile> {
               ),
             ));
   }
-  User currentUser = FirebaseAuth.instance.currentUser!;
-  final CollectionReference _profileReference =
-      FirebaseFirestore.instance.collection('landlordsProfile');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -171,8 +176,8 @@ class _ProfileState extends State<Profile> {
                 value["pdp"] == ""
                     ? imagePath = "assets/images/profile.png"
                     : imagePath = value["pdp"];
-                bool cityVisiblity = value["city_visibility"];
-                bool phoneVisibility = value["phone_visibility"];
+                cityVisibility = value["city_visibility"] ?? false;
+                phoneVisibility = value["phone_visibility"] ?? false;
                 return Center(
                   child: SingleChildScrollView(
                     child: Column(
@@ -214,7 +219,7 @@ class _ProfileState extends State<Profile> {
                         const SizedBox(
                           height: 10,
                         ),
-                        city(value, cityVisiblity),
+                        city(value, cityVisibility),
                         const SizedBox(
                           height: 10,
                         ),
@@ -237,7 +242,7 @@ class _ProfileState extends State<Profile> {
                     child: CircularProgressIndicator(),
                   );
                 } else {
-                  return const Text("Error occured while loading profile data");
+                  return const Text("Error occurred while loading profile data");
                 }
               }
             }),
@@ -245,7 +250,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-//phone number section
+  //phone number section
   Row phoneNumber(value, bool phoneVisibility) {
     return Row(
       children: [
@@ -254,7 +259,7 @@ class _ProfileState extends State<Profile> {
           child: ProfileListTile(
             label: "Number :",
             content: Text(
-              value["phone_number"],
+              value["phone_number"] ?? "",
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w400,
@@ -263,43 +268,27 @@ class _ProfileState extends State<Profile> {
             ),
           ),
         ),
-        phoneVisibility == false
-            ? GestureDetector(
-                onTap: () async {
-                  setState(() {
-                    phoneVisibility = !phoneVisibility;
-                  });
-                  await _fireStoreService.updateInfos("landlordsProfile",
-                      currentUser.uid, phoneVisibility, "phone_visibility");
-                },
-                child: SvgPicture.asset(
-                  "assets/images/visible.svg",
-                  height: 35,
-                  width: 35,
-                  color: myPrimaryColor,
-                ),
-              )
-            : GestureDetector(
-                onTap: () async {
-                  setState(() {
-                    phoneVisibility = !phoneVisibility;
-                  });
-                  await _fireStoreService.updateInfos("landlordsProfile",
-                      currentUser.uid, phoneVisibility, "phone_visibility");
-                },
-                child: SvgPicture.asset(
-                  "assets/images/not_visible.svg",
-                  height: 35,
-                  width: 35,
-                  color: myPrimaryColor,
-                ),
-              ),
+        GestureDetector(
+          onTap: () async {
+            setState(() {
+              phoneVisibility = !phoneVisibility;
+            });
+            await _fireStoreService.updateInfos("landlordsProfile",
+                currentUser.uid, phoneVisibility, "phone_visibility");
+          },
+          child: SvgPicture.asset(
+            phoneVisibility ? "assets/images/visible.svg" : "assets/images/not_visible.svg",
+            height: 35,
+            width: 35,
+            color: myPrimaryColor,
+          ),
+        ),
       ],
     );
   }
 
-//city section
-  Row city(value, bool cityVisiblity) {
+  //city section
+  Row city(value, bool cityVisibility) {
     return Row(
       children: [
         SizedBox(
@@ -307,7 +296,7 @@ class _ProfileState extends State<Profile> {
           child: ProfileListTile(
             label: "city :",
             content: Text(
-              value["city"] == "" ? "Not specified" : value["city"],
+              value["city"] == "" ? "Not specified" : value["city"] ?? "",
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w400,
@@ -316,47 +305,31 @@ class _ProfileState extends State<Profile> {
             ),
           ),
         ),
-        cityVisiblity == false
-            ? GestureDetector(
-                onTap: () async {
-                  setState(() {
-                    cityVisiblity = !cityVisiblity;
-                  });
-                  await _fireStoreService.updateInfos("landlordsProfile",
-                      currentUser.uid, cityVisiblity, "city_visibility");
-                },
-                child: SvgPicture.asset(
-                  "assets/images/visible.svg",
-                  height: 35,
-                  width: 35,
-                  color: myPrimaryColor,
-                ),
-              )
-            : GestureDetector(
-                onTap: () async {
-                  setState(() {
-                    cityVisiblity = !cityVisiblity;
-                  });
-                  await _fireStoreService.updateInfos("landlordsProfile",
-                      currentUser.uid, cityVisiblity, "city_visibility");
-                },
-                child: SvgPicture.asset(
-                  "assets/images/not_visible.svg",
-                  height: 35,
-                  width: 35,
-                  color: myPrimaryColor,
-                ),
-              ),
+        GestureDetector(
+          onTap: () async {
+            setState(() {
+              cityVisibility = !cityVisibility;
+            });
+            await _fireStoreService.updateInfos("landlordsProfile",
+                currentUser.uid, cityVisibility, "city_visibility");
+          },
+          child: SvgPicture.asset(
+            cityVisibility ? "assets/images/visible.svg" : "assets/images/not_visible.svg",
+            height: 35,
+            width: 35,
+            color: myPrimaryColor,
+          ),
+        ),
       ],
     );
   }
 
-//rented houses section
+  //rented houses section
   ProfileListTile rentedHouses(value) {
     return ProfileListTile(
         label: "Rented Houses :",
         content: Text(
-          value["rented_houses"].toString(),
+          value["rented_houses"]?.toString() ?? "",
           style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w400,
@@ -365,13 +338,12 @@ class _ProfileState extends State<Profile> {
         ));
   }
 
-  ProfileListTile rating(value) => rate(value);
-//posted houses section
+  //posted houses section
   ProfileListTile postedHouses(value) {
     return ProfileListTile(
         label: "Posted Houses :",
         content: Text(
-          value["posted_houses"].toString(),
+          value["posted_houses"]?.toString() ?? "",
           style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w400,
@@ -380,9 +352,14 @@ class _ProfileState extends State<Profile> {
         ));
   }
 
-//rating section
-  ProfileListTile rate(value) {
-    int avg = value["sum_ratings"] ~/ value["number_ratings"];
+  //rating section
+  ProfileListTile rating(value) {
+int? avg;
+if (value["number_ratings"] != null && value["number_ratings"] != 0) {
+  avg = value["sum_ratings"]! ~/ value["number_ratings"]!;
+} else {
+  print("not rated yet");
+}
     return ProfileListTile(
       label: "Rating :",
       content: value["number_ratings"] == 0
@@ -395,14 +372,18 @@ class _ProfileState extends State<Profile> {
               ),
             )
           : SizedBox(
-            width: 50,
-            height: 50,
+              width: 50,
+              height: 50,
               child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: avg,
-                itemBuilder: (context, index) {
-                return SvgPicture.asset("assets/images/star.svg",height: 25,width: 25,);
-              })),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: avg,
+                  itemBuilder: (context, index) {
+                    return SvgPicture.asset(
+                      "assets/images/star.svg",
+                      height: 25,
+                      width: 25,
+                    );
+                  })),
     );
   }
 }

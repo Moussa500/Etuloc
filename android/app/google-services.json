@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "976606190124",
-    "project_id": "federe-27c33",
-    "storage_bucket": "federe-27c33.appspot.com"
+    "project_number": "383715107184",
+    "project_id": "etuloc-21a55",
+    "storage_bucket": "etuloc-21a55.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:976606190124:android:be9423d04c4b86c4ee0f89",
+        "mobilesdk_app_id": "1:383715107184:android:e7acbbfa9bb325c86c2fb5",
         "android_client_info": {
           "package_name": "com.example.projet_federe"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAwwpd3ocJa3zJwy_INKLBgaFJGwH88HkI"
+          "current_key": "AIzaSyCYZBMd9LKkVxwhA0OMhljb21N4hCafOBs"
         }
       ],
       "services": {

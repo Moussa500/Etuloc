@@ -61,7 +61,6 @@ Future<String> decodeCoordinates(double latitude, double longitude) async {
     if (place.country != null) {
       address += place.country!;
     }
-
     // Remove trailing comma if present
     address = address.trimRight().replaceAll(RegExp(r',\s*$'), '');
 

@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -49,20 +46,30 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyBRRpxMofAbUwwNZDnadya2iYzImlqSPi8',
+    appId: '1:383715107184:web:c32ef962d0d11e656c2fb5',
+    messagingSenderId: '383715107184',
+    projectId: 'etuloc-21a55',
+    authDomain: 'etuloc-21a55.firebaseapp.com',
+    storageBucket: 'etuloc-21a55.appspot.com',
+    measurementId: 'G-K815WDQ2CV',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAwwpd3ocJa3zJwy_INKLBgaFJGwH88HkI',
-    appId: '1:976606190124:android:be9423d04c4b86c4ee0f89',
-    messagingSenderId: '976606190124',
-    projectId: 'federe-27c33',
-    storageBucket: 'federe-27c33.appspot.com',
+    apiKey: 'AIzaSyCYZBMd9LKkVxwhA0OMhljb21N4hCafOBs',
+    appId: '1:383715107184:android:e7acbbfa9bb325c86c2fb5',
+    messagingSenderId: '383715107184',
+    projectId: 'etuloc-21a55',
+    storageBucket: 'etuloc-21a55.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBDJfk-YNwfdYwkpGqqkib6xlQglgwKR4I',
-    appId: '1:976606190124:ios:536d8aed1cbe3801ee0f89',
-    messagingSenderId: '976606190124',
-    projectId: 'federe-27c33',
-    storageBucket: 'federe-27c33.appspot.com',
+    apiKey: 'AIzaSyC6YOL1iEEZI4LZU2MK5YtNpmjfeKrUwq4',
+    appId: '1:383715107184:ios:aa62d29361d644906c2fb5',
+    messagingSenderId: '383715107184',
+    projectId: 'etuloc-21a55',
+    storageBucket: 'etuloc-21a55.appspot.com',
     iosBundleId: 'com.example.projetFedere',
   );
 }

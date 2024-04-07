@@ -1,5 +1,6 @@
 //add user info
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FireStoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -49,10 +50,26 @@ class FireStoreService {
     });
   }
   //get the specific documents filtered by id
-  Future<List<Map<String, dynamic>>> getSpecificDocuments(documentId,String collectionName) async {
-    final collectionRef = _firestore.collection(collectionName);
-  final querySnapshot = await collectionRef.where(FieldPath.documentId==documentId).get();
+Future<List<Map<String, dynamic>>> getSpecificDocuments(
+    String documentId, String collectionName) async {
+  final collectionRef = _firestore.collection(collectionName);
+  final querySnapshot = await collectionRef.where(FieldPath.documentId, isEqualTo: documentId).get();
   return querySnapshot.docs.map((doc) => doc.data()).toList();
 }
 
+  //post a house
+  Future<void> postHouse(String price,String url,String available_places,String location,bool bed,String type,String places,String uid,String gender)async{
+            await _firestore.collection("houses").doc(uid).set({
+              "images_url":url,
+              "uid":uid,
+          "available_places": available_places,
+          "gender": gender,
+          "location":location,
+          "bed": bed,
+          "house":!bed,
+          "state": "available",
+          "type": type,
+          "places":places,
+        });
+  }
 }
