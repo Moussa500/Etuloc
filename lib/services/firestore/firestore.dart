@@ -1,6 +1,7 @@
 //add user info
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class FireStoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -33,6 +34,7 @@ class FireStoreService {
       print(e);
     }
   }
+
   //get infos from the firebase
   Future<dynamic> getValueFromFirestore(DocumentReference docRef) async {
     DocumentSnapshot snapshot = await docRef.get();
@@ -42,6 +44,7 @@ class FireStoreService {
       return null;
     }
   }
+
   //update infos
   Future<void> updateInfos(
       String collection, String docId, var newValue, String field) {
@@ -49,27 +52,55 @@ class FireStoreService {
       field: newValue,
     });
   }
-  //get the specific documents filtered by id
-Future<List<Map<String, dynamic>>> getSpecificDocuments(
-    String documentId, String collectionName) async {
-  final collectionRef = _firestore.collection(collectionName);
-  final querySnapshot = await collectionRef.where(FieldPath.documentId, isEqualTo: documentId).get();
-  return querySnapshot.docs.map((doc) => doc.data()).toList();
-}
 
+  //get all the documents from a collection
+  Stream<List<Map<String, dynamic>>> getCollectionStream(
+      String collectionName) {
+    return _firestore
+        .collection(collectionName)
+        .snapshots()
+        .map((querySnapshot) {
+      return querySnapshot.docs
+          .map((doc) => doc.data() as Map<String, dynamic>)
+          .toList();
+    });
+  }
+  Stream<QuerySnapshot> getHousedStream() {
+    final notesStream =
+        _firestore.collection("houses").snapshots();
+    return notesStream;
+  }
   //post a house
-  Future<void> postHouse(String price,String url,String available_places,String location,bool bed,String type,String places,String uid,String gender)async{
-            await _firestore.collection("houses").doc(uid).set({
-              "images_url":url,
-              "uid":uid,
-          "available_places": available_places,
-          "gender": gender,
-          "location":location,
-          "bed": bed,
-          "house":!bed,
-          "state": "available",
-          "type": type,
-          "places":places,
-        });
+  Future<void> postHouse(
+      String city,
+      String price,
+      String url,
+      String availablePlaces,
+      String location,
+      bool bed,
+      String type,
+      String places,
+      String uid,
+      String gender) async {
+    await _firestore.collection("houses").doc().set({
+      "price": price,
+      "images_url": url,
+      "city_name": city,
+      "uid": uid,
+      "available_places": availablePlaces,
+      "gender": gender,
+      "location": location,
+      "bed": bed,
+      "house": !bed,
+      "state": "available",
+      "type": type,
+      "places": places,
+    });
+  }
+
+  Future<void> deleteHouse(String uid) async{
+    return await _firestore
+        .collection("houses")
+        .doc(uid).delete();
   }
 }

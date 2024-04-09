@@ -2,7 +2,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class Location {
+class LocationService {
   Future<Position> getCurrentLocation() async {
     var status = await Permission.location.status;
     if (status.isDenied) {
@@ -70,5 +70,25 @@ Future<String> decodeCoordinates(double latitude, double longitude) async {
     return 'Error decoding coordinates.';
   }
 }
+
+Future<String> getCityNameFromCoordinates(double latitude, double longitude) async {
+  try {
+    List<Placemark> placemarks = await placemarkFromCoordinates(latitude, longitude);
+
+    // Handle cases where no placemarks are found
+    if (placemarks.isEmpty) {
+      return 'No location information found for these coordinates.';
+    }
+
+    Placemark place = placemarks[0];
+
+    // Return the city name
+    return place.locality ?? 'Unknown City';
+  } catch (e) {
+    print('Error: $e');
+    return 'Error decoding coordinates.';
+  }
+}
+
 
 }

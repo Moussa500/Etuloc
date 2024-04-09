@@ -1,67 +1,41 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projet_federe/Models/houses_models.dart';
-import 'package:projet_federe/components/etudiant_cards.dart';
+import 'package:projet_federe/components/my_drawer.dart';
+import 'package:projet_federe/components/student_card.dart';
 import 'package:projet_federe/components/colors.dart';
 import 'package:projet_federe/components/device_dimensions.dart';
 import 'package:projet_federe/components/textfields.dart';
-import 'package:projet_federe/pages/Etudiant/houseperhousedetails.dart';
 import 'package:projet_federe/services/auth/auth_service.dart';
-import 'package:projet_federe/stateManagement/home_state.dart';
+import 'package:projet_federe/services/firestore/firestore.dart';
 import 'package:projet_federe/stateManagement/search_state.dart';
 import 'package:provider/provider.dart';
 
 class EtudiantHomePage extends StatelessWidget {
   EtudiantHomePage({super.key});
-  final User? user = FirebaseAuth.instance.currentUser;
   //logout function
   void logout() async {
     final authService = AuthService();
     await authService.signOut();
   }
-
+  final User? currentUser= FirebaseAuth.instance.currentUser;
+  FireStoreService _fireStoreService = FireStoreService();
   @override
   Widget build(BuildContext context) {
-    var houseProvider = Provider.of<HomeState>(context);
     var searchTextProvider = Provider.of<SearchTextProvider>(context);
-    List<dynamic> filteredList = houseProvider.combinedList.where((item) {
-      if (item is HousePerPlacesModel) {
-        return item.city
-            .toLowerCase()
-            .contains(searchTextProvider.searchText.toLowerCase());
-      } else if (item is HousesPerHouseModels) {
-        return item.city
-            .toLowerCase()
-            .contains(searchTextProvider.searchText.toLowerCase());
-      }
-      return false;
-    }).toList();
     return SafeArea(
       child: Scaffold(
+        drawer: const MyDrawer(),
         appBar: AppBar(
           title: Text(
-            'Hello ${user!.displayName}',
+            'Hello ${currentUser!.displayName}',
             style: const TextStyle(
               fontFamily: "poppins",
               fontSize: 30,
               fontWeight: FontWeight.w600,
             ),
           ),
-          actions: [
-            GestureDetector(
-              onTap: () {
-                logout();
-              },
-              child: const Padding(
-                padding:  EdgeInsets.all(8.0),
-                child: Icon(
-                  Icons.logout,
-                  color: myPrimaryColor,
-                  size: 40,
-                ),
-              ),
-            ),
-          ],
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -84,74 +58,54 @@ class EtudiantHomePage extends StatelessWidget {
               const SizedBox(
                 height: 50,
               ),
-              SizedBox(
-                width: Dimensions.deviceWidth(context) * .9,
-                height: Dimensions.deviceHeight(context) * .6,
-                child: ListView.separated(
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (context, index) => Container(
-                    height: Dimensions.deviceWidth(context) * .43,
-                    decoration: const BoxDecoration(
-                      color: myBackgroundColor,
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                      boxShadow: [
-                        BoxShadow(
-                          offset: Offset(0, 3),
-                          blurRadius: 6,
-                          color: myShadowColor,
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        filteredList[index] is HousePerPlacesModel
-                            ? HousePerPlaceCard(
-                                path: filteredList[index].images[1],
-                                city: filteredList[index].city,
-                                price: filteredList[index].price,
-                                availablePlaces:
-                                    (filteredList[index] as HousePerPlacesModel)
-                                        .availablePlaces,
-                                location:
-                                    (filteredList[index] as HousePerPlacesModel)
-                                        .loc,
-                                navigate: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HouseDetails(
-                                          housedetails: filteredList[index]),
-                                    ),
-                                  );
-                                },
-                              )
-                            : HousePerHouseCard(
-                                path: (filteredList[index]
-                                        as HousesPerHouseModels)
-                                    .images[0],
-                                city: filteredList[index].city,
-                                price: filteredList[index].price,
-                                location: (filteredList[index]
-                                        as HousesPerHouseModels)
-                                    .loc,
-                                state: (filteredList[index]
-                                                as HousesPerHouseModels)
-                                            .state ==
-                                        HouseStates.underNegotiation
-                                    ? "Under negotiation"
-                                    : (filteredList[index]
-                                            as HousesPerHouseModels)
-                                        .state
-                                        .toString(),
-                              ),
-                      ],
-                    ),
-                  ),
-                  separatorBuilder: (context, index) => const SizedBox(
-                    height: 15,
-                  ),
-                  itemCount: filteredList.length,
-                ),
+              Center(
+                child: StreamBuilder<QuerySnapshot>(
+                    stream: _fireStoreService.getHousedStream(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CircularProgressIndicator();
+                      } else {
+                        if (snapshot.hasData) {
+                          final data = snapshot.data!.docs;
+                          return Center(
+                            child: Container(
+                              width: Dimensions.deviceWidth(context),
+                              height: Dimensions.deviceHeight(context) * .7,
+                              child: ListView.separated(
+                                  scrollDirection: Axis.vertical,
+                                  separatorBuilder: (context, index) =>
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                  itemCount: data.length,
+                                  itemBuilder: (context, index) {
+                                      List<String> pathList =
+                                          data[index]["images_url"].split(',');
+                                      return StudentCard(
+                                        ontap: () async {},
+                                        state: data[index]["state"],
+                                        path: pathList[0],
+                                        city:
+                                            data[index]["city_name"].toString(),
+                                        gender: data[index]["gender"],
+                                        availablePlaces: int.parse(
+                                            data[index]["available_places"]),
+                                        location: data[index]["location"],
+                                        price: int.parse(data[index]["price"]),
+                                        bed: data[index]["bed"],
+                                        house: data[index]["house"],
+                                      );
+                                    }
+                                  )
+                            ),
+                          );
+                        } else {
+                          return const Center(
+                            child: Text("There is no houses at the moment"),
+                          );
+                        }
+                      }
+                    }),
               ),
             ],
           ),

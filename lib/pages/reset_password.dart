@@ -20,7 +20,6 @@ class ResetPassword extends StatelessWidget {
       SnackBarService.showErrorSnackBar(context, e.toString());
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -4,7 +4,7 @@ import 'package:projet_federe/components/colors.dart';
 import 'package:projet_federe/components/device_dimensions.dart';
 import 'package:projet_federe/services/firestore/firestore.dart';
 
-class LandLordCard extends StatelessWidget {
+class StudentCard extends StatelessWidget {
   final String path;
   final String city;
   final String gender;
@@ -16,7 +16,7 @@ class LandLordCard extends StatelessWidget {
   final bool house;
   final void Function()? ontap;
 
-  const LandLordCard({
+  const StudentCard({
     super.key,
     required this.path,
     required this.ontap,
@@ -35,7 +35,7 @@ class LandLordCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Container(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         width: Dimensions.deviceWidth(context) * .7,
         decoration: const BoxDecoration(
             color: Colors.white,
@@ -103,16 +103,14 @@ class LandLordCard extends StatelessWidget {
                         : SubFields(label: "state", value: "$state"),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 100),
+                    padding: const EdgeInsets.only(left: 125,top: 10),
                     child: Row(
                       children: [
                         MainButton(
                             height: 35,
                             width: 73,
-                            label: "Edit",
+                            label: "View",
                             onPressed: () {}),
-                        IconButton(
-                            onPressed: ontap, icon: const Icon(Icons.delete))
                       ],
                     ),
                   ),
