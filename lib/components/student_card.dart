@@ -14,7 +14,7 @@ class StudentCard extends StatelessWidget {
   final String? state;
   final bool bed;
   final bool house;
-  final void Function()? ontap;
+  final void Function() ontap;
 
   const StudentCard({
     super.key,
@@ -110,7 +110,7 @@ class StudentCard extends StatelessWidget {
                             height: 35,
                             width: 73,
                             label: "View",
-                            onPressed: () {}),
+                            onPressed: ontap),
                       ],
                     ),
                   ),

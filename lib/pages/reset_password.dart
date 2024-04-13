@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:projet_federe/components/background.dart';
 import 'package:projet_federe/components/buttons.dart';
 import 'package:projet_federe/components/text.dart';
 import 'package:projet_federe/components/textfields.dart';
-import 'package:projet_federe/pages/Etudiant/houseperhousedetails.dart';
 import 'package:projet_federe/services/auth/auth_service.dart';
 import 'package:projet_federe/services/sncak_bar_services.dart';
 class ResetPassword extends StatelessWidget {
@@ -25,7 +25,7 @@ class ResetPassword extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: Background(
-        child: Column(
+        elements: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Header(label: "Recover Password"),

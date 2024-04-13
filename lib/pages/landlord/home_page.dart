@@ -375,155 +375,134 @@ class _LandLordHomePageState extends State<LandLordHomePage> {
     var searchTextProvider = Provider.of<SearchTextProvider>(context);
     return SafeArea(
         child: Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => postHouse(),
-        backgroundColor: myPrimaryColor,
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-      ),
-      drawer: const MyDrawer(),
-      appBar: AppBar(
-        title: Text(
-          'Hello ${currentUser!.displayName}',
-          style: const TextStyle(
-            fontFamily: "poppins",
-            fontSize: 30,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 60),
-              child: Center(
-                child: CustomTextField(
-                  icon: const Icon(Icons.search),
-                  label: 'Search',
-                  controller: TextEditingController(
-                      text: searchTextProvider.searchText),
-                  onChanged: (text) {
-                    searchTextProvider.searchText = text;
-                  },
-                  customwidth: MediaQuery.of(context).size.width * .9,
+            floatingActionButton: FloatingActionButton(
+              onPressed: () => postHouse(),
+              backgroundColor: myPrimaryColor,
+              child: const Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
+            ),
+            drawer: const MyDrawer(),
+            appBar: AppBar(
+              title: Text(
+                'Hello ${currentUser!.displayName}',
+                style: const TextStyle(
+                  fontFamily: "poppins",
+                  fontSize: 30,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
-            const SizedBox(
-              height: 50,
-            ),
-            Center(
-              child: StreamBuilder<QuerySnapshot>(
-                  stream: _fireStoreService.getHousedStream(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
-                    } else {
-                      if (snapshot.hasData) {
-                        final data = snapshot.data!.docs;
-                        return FutureBuilder(
-                            future: _fireStoreService.getValueFromFirestore(
-                                FirebaseFirestore.instance
-                                    .collection("houses")
-                                    .doc()),
-                            builder: (context, snapshot) {
-                              return Center(
-                                child: Container(
-                                  width: Dimensions.deviceWidth(context),
-                                  height: Dimensions.deviceHeight(context) * .7,
-                                  child: ListView.separated(
-                                      scrollDirection: Axis.vertical,
-                                      separatorBuilder: (context, index) =>
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                      itemCount: data.length,
-                                      itemBuilder: (context, index) {
-                                        if (data[index]["uid"] ==
-                                            currentUser!.uid) {
+            body: SingleChildScrollView(
+                child: Column(children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 60),
+                child: Center(
+                  child: CustomTextField(
+                    icon: const Icon(Icons.search),
+                    label: 'Search',
+                    controller: TextEditingController(
+                        text: searchTextProvider.searchText),
+                    onChanged: (text) {
+                      searchTextProvider.searchText = text;
+                    },
+                    customwidth: MediaQuery.of(context).size.width * .9,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 50,
+              ),
+              Center(
+                  child: StreamBuilder<QuerySnapshot>(
+                      stream: _fireStoreService.getHousedStream(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        } else {
+                          if (snapshot.hasData) {
+                            final data = snapshot.data!.docs;
+                            return Center(
+                                child: SizedBox(
+                                    width: Dimensions.deviceWidth(context),
+                                    height:
+                                        Dimensions.deviceHeight(context) * .7,
+                                    child: ListView.separated(
+                                        scrollDirection: Axis.vertical,
+                                        separatorBuilder: (context, index) =>
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                        itemCount: data.length,
+                                        itemBuilder: (context, index) {
                                           List<String> pathList = data[index]
                                                   ["images_url"]
                                               .split(',');
-                                          return LandLordCard(
-                                            ontap: () async {
-                                              showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (context) => AlertDialog(
-                                                            content: const Text(
-                                                              "Are you sure ?",
-                                                              style: TextStyle(
-                                                                  fontFamily:
-                                                                      "poppins",
-                                                                  fontSize: 20,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
-                                                            ),
-                                                            actions: [
-                                                              MainButton(
-                                                                  height: 50,
-                                                                  width: 75,
-                                                                  label: "Yes",
-                                                                  onPressed:
-                                                                      () async {
-                                                                    await _fireStoreService
-                                                                        .deleteHouse(
-                                                                            data[index].id);
+                                          if (data[index]["uid"] ==
+                                              currentUser!.uid) {
+                                            return LandLordCard(
+                                              ontap: () async {
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (context) =>
+                                                        AlertDialog(
+                                                          content: const Text(
+                                                            "Are you sure ?",
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                    "poppins",
+                                                                fontSize: 20,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                          ),
+                                                          actions: [
+                                                            MainButton(
+                                                                height: 50,
+                                                                width: 75,
+                                                                label: "Yes",
+                                                                onPressed:
+                                                                    () async {
+                                                                  await _fireStoreService
+                                                                      .deleteHouse(
+                                                                          data[index]
+                                                                              .id);
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                }),
+                                                            MainButton(
+                                                                height: 50,
+                                                                width: 75,
+                                                                label: "No",
+                                                                onPressed: () =>
                                                                     Navigator.pop(
-                                                                        context);
-                                                                  }),
-                                                              MainButton(
-                                                                  height: 50,
-                                                                  width: 75,
-                                                                  label: "No",
-                                                                  onPressed: () =>
-                                                                      Navigator.pop(
-                                                                          context))
-                                                            ],
-                                                          ));
-                                            },
-                                            state: data[index]["state"],
-                                            path: pathList[0],
-                                            city: data[index]["city_name"]
-                                                .toString(),
-                                            gender: data[index]["gender"],
-                                            availablePlaces: int.parse(
-                                                data[index]
-                                                    ["available_places"]),
-                                            location: data[index]["location"],
-                                            price:
-                                                int.parse(data[index]["price"]),
-                                            bed: data[index]["bed"],
-                                            house: data[index]["house"],
-                                          );
-                                        } else {
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.waiting) {
-                                            return CircularProgressIndicator();
-                                          } else {
-                                            return const Center(
-                                              child: Text(
-                                                  "You didn't post any house yet"),
+                                                                        context))
+                                                          ],
+                                                        ));
+                                              },
+                                              state: data[index]["state"],
+                                              path: pathList[0],
+                                              city: data[index]["city_name"]
+                                                  .toString(),
+                                              gender: data[index]["gender"],
+                                              availablePlaces: int.parse(
+                                                  data[index]
+                                                      ["available_places"]),
+                                              location: data[index]["location"],
+                                              price: int.parse(
+                                                  data[index]["price"]),
+                                              bed: data[index]["bed"],
+                                              house: data[index]["house"],
                                             );
                                           }
-                                        }
-                                      }),
-                                ),
-                              );
-                            });
-                      } else {
-                        return const Text("No posted Houses");
-                      }
-                    }
-                  }),
-            ),
-          ],
-        ),
-      ),
-    ));
+                                        })));
+                          } else {
+                            return const Text("No posted Houses yet");
+                          }
+                        }
+                      }))
+            ]))));
   }
 }

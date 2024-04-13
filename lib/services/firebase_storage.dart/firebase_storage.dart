@@ -27,7 +27,7 @@ class StorageService {
     // Consider reporting errors back to the user or UI
   }
 
-  return imageUrls.join();
+  return imageUrls.join(',');
 }
 
 }

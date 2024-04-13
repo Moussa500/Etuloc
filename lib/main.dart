@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:projet_federe/firebase_options.dart';
 import 'package:projet_federe/pages/Etudiant/homepage.dart';
+import 'package:projet_federe/pages/Etudiant/house_details.dart';
 import 'package:projet_federe/pages/landlord/home_page.dart';
 import 'package:projet_federe/pages/landlord/profile_page.dart';
 import 'package:projet_federe/pages/reset_password.dart';

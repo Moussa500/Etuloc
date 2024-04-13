@@ -87,7 +87,7 @@ class FireStoreService {
       "images_url": url,
       "city_name": city,
       "uid": uid,
-      "available_places": availablePlaces,
+      "available_places": places,
       "gender": gender,
       "location": location,
       "bed": bed,

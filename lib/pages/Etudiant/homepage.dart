@@ -1,13 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:projet_federe/Models/houses_models.dart';
+import 'package:projet_federe/components/buttons.dart';
 import 'package:projet_federe/components/my_drawer.dart';
 import 'package:projet_federe/components/student_card.dart';
-import 'package:projet_federe/components/colors.dart';
 import 'package:projet_federe/components/device_dimensions.dart';
 import 'package:projet_federe/components/textfields.dart';
-import 'package:projet_federe/services/auth/auth_service.dart';
+import 'package:projet_federe/pages/Etudiant/house_details.dart';
 import 'package:projet_federe/services/firestore/firestore.dart';
 import 'package:projet_federe/stateManagement/search_state.dart';
 import 'package:provider/provider.dart';
@@ -15,11 +14,7 @@ import 'package:provider/provider.dart';
 class EtudiantHomePage extends StatelessWidget {
   EtudiantHomePage({super.key});
   //logout function
-  void logout() async {
-    final authService = AuthService();
-    await authService.signOut();
-  }
-  final User? currentUser= FirebaseAuth.instance.currentUser;
+  final User? currentUser = FirebaseAuth.instance.currentUser;
   FireStoreService _fireStoreService = FireStoreService();
   @override
   Widget build(BuildContext context) {
@@ -69,20 +64,27 @@ class EtudiantHomePage extends StatelessWidget {
                           final data = snapshot.data!.docs;
                           return Center(
                             child: Container(
-                              width: Dimensions.deviceWidth(context),
-                              height: Dimensions.deviceHeight(context) * .7,
-                              child: ListView.separated(
-                                  scrollDirection: Axis.vertical,
-                                  separatorBuilder: (context, index) =>
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                  itemCount: data.length,
-                                  itemBuilder: (context, index) {
+                                width: Dimensions.deviceWidth(context),
+                                height: Dimensions.deviceHeight(context) * .7,
+                                child: ListView.separated(
+                                    scrollDirection: Axis.vertical,
+                                    separatorBuilder: (context, index) =>
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                    itemCount: data.length,
+                                    itemBuilder: (context, index) {
                                       List<String> pathList =
                                           data[index]["images_url"].split(',');
                                       return StudentCard(
-                                        ontap: () async {},
+                                        ontap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      HouseDetails(
+                                                          id: data[index].id)));
+                                        },
                                         state: data[index]["state"],
                                         path: pathList[0],
                                         city:
@@ -95,9 +97,7 @@ class EtudiantHomePage extends StatelessWidget {
                                         bed: data[index]["bed"],
                                         house: data[index]["house"],
                                       );
-                                    }
-                                  )
-                            ),
+                                    })),
                           );
                         } else {
                           return const Center(
@@ -107,6 +107,7 @@ class EtudiantHomePage extends StatelessWidget {
                       }
                     }),
               ),
+
             ],
           ),
         ),
